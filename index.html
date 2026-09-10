@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#a55f62">
+<title>Re*Nascente Social Seller</title>
+<style>
+:root{--bg:#f7f2ee;--card:#fff;--text:#2c2223;--muted:#75696b;--rose:#a55f62;--green:#718b76;--gold:#b68c51;--line:#e8ddd8;--danger:#765456}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}.wrap{max-width:780px;margin:auto;padding:16px 14px 42px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px}h1{font-size:28px;margin:5px 0 2px}.muted,.small{color:var(--muted);font-size:13px}.privacy{background:#edf5ee;border:1px solid #d6e5d8;border-radius:12px;padding:10px 12px;margin:12px 0;font-size:13px}.nav{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.nav button.active{background:var(--rose);color:#fff}button{border:0;border-radius:12px;padding:12px 14px;font-size:15px;font-weight:800;cursor:pointer}.primary{background:var(--rose);color:#fff}.green{background:var(--green);color:#fff}.gold{background:var(--gold);color:#fff}.gray{background:#eee7e3;color:var(--text)}.danger{background:var(--danger);color:#fff}.row{display:flex;gap:8px;flex-wrap:wrap}.row button{flex:1;min-width:130px}.counts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}.count{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center}.count b{display:block;font-size:21px}.badge{display:inline-block;background:#ead5d2;border-radius:999px;padding:6px 9px;font-size:12px;font-weight:800;margin-top:8px}.msg{background:#faf6f3;border:1px solid var(--line);border-radius:14px;padding:13px;margin:12px 0;white-space:pre-wrap;line-height:1.45}.hidden{display:none!important}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px;font-size:15px;background:#fff;color:var(--text)}textarea{min-height:80px;resize:vertical}label{display:block;font-size:12px;color:var(--muted);margin:10px 0 5px}.item{border:1px solid var(--line);border-radius:12px;padding:11px;margin-top:8px;background:#fff}.item b{display:block}.mini{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.mini button{padding:8px 10px;font-size:12px}.empty{text-align:center;padding:22px 12px}.empty h2{margin:0 0 8px}@media(max-width:600px){.counts{grid-template-columns:repeat(2,1fr)}h1{font-size:25px}.row button{min-width:115px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Re*Nascente Social Seller</h1>
+<div class="muted">Abra. Faça o que aparece. Marque o resultado.</div>
+<div class="privacy"><b>Privacidade:</b> os contatos, respostas e números que você cadastrar ficam salvos somente neste navegador/aparelho. Eles não são publicados no GitHub.</div>
+
+<div class="nav">
+<button id="bHoje" class="active" onclick="tab('hoje')">HOJE</button>
+<button id="bPessoas" class="gray" onclick="tab('pessoas')">PESSOAS</button>
+<button id="bAdd" class="gray" onclick="tab('add')">+ ADICIONAR</button>
+</div>
+
+<section id="hoje">
+<div class="counts">
+<div class="count"><b id="nResp">0</b><span class="small">responder</span></div>
+<div class="count"><b id="nFollow">0</b><span class="small">follow-up</span></div>
+<div class="count"><b id="nWA">0</b><span class="small">WhatsApp</span></div>
+<div class="count"><b id="nDiag">0</b><span class="small">diagnóstico</span></div>
+</div>
+
+<div class="card" id="taskCard">
+<div class="small">FAÇA ISSO AGORA</div>
+<h2 id="name"></h2>
+<div id="handle" class="muted"></div>
+<div id="stage" class="badge"></div>
+<div id="message" class="msg"></div>
+<div class="row">
+<button class="gray" onclick="openIG()">Abrir Instagram</button>
+<button class="green" onclick="openWA()">Abrir WhatsApp</button>
+<button class="primary" onclick="copyMsg()">Copiar mensagem</button>
+</div>
+<hr style="border:0;border-top:1px solid var(--line);margin:15px 0">
+<div class="small"><b>O QUE ACONTECEU?</b></div>
+<div class="row" style="margin-top:8px">
+<button class="gray" onclick="result('enviada')">Enviei</button>
+<button class="green" onclick="result('respondeu')">Respondeu</button>
+<button class="gold" onclick="result('levar_whatsapp')">Levar p/ WhatsApp</button>
+<button class="gray" onclick="result('whatsapp')">Já está no WhatsApp</button>
+<button class="gray" onclick="result('diagnostico')">Diagnóstico</button>
+</div>
+<div class="row" style="margin-top:8px">
+<button class="green" onclick="result('fechou')">Fechou mentoria</button>
+<button class="gold" onclick="result('naoprocurar')">Não procurar mais</button>
+<button class="danger" onclick="result('bloqueou')">Me bloqueou</button>
+</div>
+<div class="row" style="margin-top:8px">
+<button class="gray" onclick="snooze(1)">Adiar 1 dia</button>
+<button class="gray" onclick="snooze(3)">Adiar 3 dias</button>
+<button class="gray" onclick="nextLead()">Próxima</button>
+</div>
+</div>
+
+<div class="card empty hidden" id="emptyCard">
+<h2>Seu app está pronto.</h2>
+<p class="muted">Nenhuma pessoa cadastrada neste aparelho ainda.</p>
+<button class="primary" onclick="tab('add')">Adicionar primeira pessoa</button>
+</div>
+</section>
+
+<section id="pessoas" class="hidden">
+<div class="card">
+<input id="search" placeholder="Buscar nome, @ ou negócio" oninput="renderPeople()">
+<div id="list"></div>
+</div>
+</section>
+
+<section id="add" class="hidden">
+<div class="card">
+<label>Nome</label><input id="fName" autocomplete="off">
+<label>@ Instagram</label><input id="fHandle" placeholder="@perfil" autocomplete="off">
+<label>WhatsApp com DDD</label><input id="fPhone" inputmode="tel" placeholder="48999999999" autocomplete="off">
+<label>Profissão / negócio</label><input id="fBiz" autocomplete="off">
+<label>Etapa</label>
+<select id="fStage">
+<option value="abordar">Abordar</option>
+<option value="aguardando">Aguardando resposta</option>
+<option value="respondeu">Respondeu</option>
+<option value="levar_whatsapp">Levar para WhatsApp</option>
+<option value="whatsapp">Já está no WhatsApp</option>
+<option value="diagnostico">Diagnóstico</option>
+</select>
+<label>Última resposta dela</label><textarea id="fReply"></textarea>
+<button class="primary" style="width:100%;margin-top:12px" onclick="addLead()">Salvar e trabalhar</button>
+</div>
+</section>
+</div>
+
+<script>
+const STORAGE_KEY='renascente_ss_free_v2';
+const today=()=>{const d=new Date();const z=new Date(d.getTime()-d.getTimezoneOffset()*60000);return z.toISOString().slice(0,10)};
+const plus=n=>{const d=new Date();d.setDate(d.getDate()+n);const z=new Date(d.getTime()-d.getTimezoneOffset()*60000);return z.toISOString().slice(0,10)};
+const terminal=s=>['fechou','naoprocurar','bloqueou'].includes(s);
+const labels={abordar:'ABORDAR',aguardando:'AGUARDAR',respondeu:'RESPONDEU',levar_whatsapp:'LEVAR PARA WHATSAPP',whatsapp:'NO WHATSAPP',diagnostico:'DIAGNÓSTICO',fechou:'FECHOU MENTORIA',naoprocurar:'NÃO PROCURAR MAIS',bloqueou:'ME BLOQUEOU'};
+let data=[];
+try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');data=Array.isArray(saved)?saved:[]}catch(e){data=[]}
+let currentId=null;
+const save=()=>localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
+function priority(x){if(terminal(x.stage))return 99;if(x.stage==='respondeu')return 1;if(x.stage==='levar_whatsapp')return 2;if(x.stage==='whatsapp')return 3;if(x.stage==='diagnostico')return 4;if(x.stage==='aguardando'&&x.due&&x.due<=today())return 5;if(x.stage==='abordar')return 6;return 8}
+function queue(){return data.filter(x=>!terminal(x.stage)).sort((a,b)=>priority(a)-priority(b)||(a.updated||0)-(b.updated||0))}
+function current(){const q=queue();if(!q.length)return null;const found=q.find(x=>x.id===currentId);const x=found||q[0];currentId=x.id;return x}
+function firstName(n){return (n||'').trim().split(/\s+/)[0]||'Oi'}
+function messageFor(x){const f=firstName(x.name);if(x.stage==='abordar')return `Oi, ${f}! Passei pelo teu perfil e me chamou atenção o trabalho que você vem construindo${x.biz?' com '+x.biz:''}. Fiquei curiosa para conhecer um pouco melhor esse momento profissional que você está vivendo.`;if(x.stage==='aguardando')return x.due&&x.due<=today()?`Oi, ${f}! Retomando nossa conversa por aqui porque fiquei pensando no teu momento profissional. Como estão as coisas por aí?`:`Aguardar até ${x.due||'o próximo follow-up'}. Não mandar nova mensagem agora.`;if(x.stage==='respondeu')return `Ela respondeu:\n“${x.reply||''}”\n\nReconheça o que ela disse e faça UMA pergunta por vez. O objetivo é criar abertura e depois levar para o WhatsApp.`;if(x.stage==='levar_whatsapp')return `${f}, quero continuar essa conversa com mais profundidade porque pelo que você me contou existe um ponto importante aí no teu momento profissional. Vamos seguir pelo WhatsApp. Me envia teu número por aqui que eu te chamo.`;if(x.stage==='whatsapp')return `${f}, quero retomar nossa conversa por aqui e entender melhor esse momento do teu negócio. Me conta: qual é o ponto que mais está te incomodando ou limitando teu crescimento hoje?`;if(x.stage==='diagnostico')return 'Conduza para a Sessão Diagnóstico: dor atual → impacto → desejo → custo de continuar igual.';return ''}
+function render(){document.getElementById('nResp').textContent=data.filter(x=>x.stage==='respondeu').length;document.getElementById('nFollow').textContent=data.filter(x=>x.stage==='aguardando'&&x.due&&x.due<=today()).length;document.getElementById('nWA').textContent=data.filter(x=>['levar_whatsapp','whatsapp'].includes(x.stage)).length;document.getElementById('nDiag').textContent=data.filter(x=>x.stage==='diagnostico').length;const x=current();const task=document.getElementById('taskCard'),empty=document.getElementById('emptyCard');if(!x){task.classList.add('hidden');empty.classList.remove('hidden');return}task.classList.remove('hidden');empty.classList.add('hidden');document.getElementById('name').textContent=x.name;document.getElementById('handle').textContent=[x.handle,x.phone?'WhatsApp: '+x.phone:''].filter(Boolean).join(' · ');document.getElementById('stage').textContent=labels[x.stage]||x.stage;document.getElementById('message').textContent=messageFor(x)}
+function nextLead(){const q=queue();if(!q.length)return;const i=q.findIndex(x=>x.id===currentId);currentId=q[(i+1)%q.length].id;render()}
+async function copyMsg(){const text=document.getElementById('message').textContent;try{await navigator.clipboard.writeText(text);alert('Mensagem copiada.')}catch(e){alert('Não consegui copiar automaticamente. Pressione e segure a mensagem para copiar.')}}
+function openIG(){const x=current();if(!x||!x.handle)return alert('Cadastre o @ do Instagram desta pessoa.');const h=x.handle.trim().replace(/^@/,'');location.href='https://www.instagram.com/'+encodeURIComponent(h)+'/'}
+function openWA(){const x=current();if(!x||!x.phone)return alert('Cadastre o WhatsApp desta pessoa em PESSOAS.');let p=x.phone.replace(/\D/g,'');if(!p.startsWith('55'))p='55'+p;location.href='https://wa.me/'+p+'?text='+encodeURIComponent(messageFor(x))}
+function result(s){const x=current();if(!x)return;if(s==='bloqueou'&&!confirm('Retirar definitivamente da fila porque bloqueou?'))return;if(s==='naoprocurar'&&!confirm('Retirar definitivamente da fila e não procurar mais?'))return;if(s==='fechou'&&!confirm('Marcar como mentoria fechada?'))return;if(s==='respondeu'){const r=prompt('Cole aqui a resposta dela:');if(r!==null)x.reply=r;x.stage='respondeu';x.due=today()}else if(s==='enviada'){x.stage='aguardando';x.due=plus(2)}else{x.stage=s;if(['whatsapp','diagnostico'].includes(s))x.due=today()}x.updated=Date.now();save();currentId=null;render();renderPeople()}
+function snooze(n){const x=current();if(!x)return;x.stage='aguardando';x.due=plus(n);x.updated=Date.now();save();currentId=null;render();renderPeople()}
+function tab(t){['hoje','pessoas','add'].forEach(id=>document.getElementById(id).classList.toggle('hidden',id!==t));document.getElementById('bHoje').classList.toggle('active',t==='hoje');document.getElementById('bPessoas').classList.toggle('active',t==='pessoas');document.getElementById('bAdd').classList.toggle('active',t==='add');if(t==='hoje')render();if(t==='pessoas')renderPeople()}
+function renderPeople(){const q=(document.getElementById('search').value||'').toLowerCase();const list=document.getElementById('list');list.innerHTML='';const arr=data.filter(x=>(x.name+' '+(x.handle||'')+' '+(x.biz||'')).toLowerCase().includes(q)).sort((a,b)=>(b.updated||0)-(a.updated||0));arr.forEach(x=>{const d=document.createElement('div');d.className='item';d.innerHTML=`<b>${escapeHtml(x.name)}</b><div class="small">${escapeHtml(x.handle||'')} · ${escapeHtml(labels[x.stage]||x.stage)}</div><div class="mini"><button class="gray" onclick="editLead(${x.id})">Editar</button>${!terminal(x.stage)?`<button class="primary" onclick="work(${x.id})">Trabalhar agora</button>`:''}</div>`;list.appendChild(d)});if(!arr.length)list.innerHTML='<div class="empty muted">Nenhuma pessoa encontrada.</div>'}
+function escapeHtml(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+function editLead(id){const x=data.find(z=>z.id===id);if(!x)return;const p=prompt('WhatsApp com DDD:',x.phone||'');if(p!==null)x.phone=p.trim();const h=prompt('@ do Instagram:',x.handle||'');if(h!==null)x.handle=h.trim();const s=prompt('Etapa: abordar, aguardando, respondeu, levar_whatsapp, whatsapp, diagnostico, fechou, naoprocurar, bloqueou',x.stage);if(s&&['abordar','aguardando','respondeu','levar_whatsapp','whatsapp','diagnostico','fechou','naoprocurar','bloqueou'].includes(s))x.stage=s;x.updated=Date.now();save();renderPeople();render()}
+function work(id){currentId=id;tab('hoje')}
+function addLead(){const n=document.getElementById('fName').value.trim();if(!n)return alert('Coloque o nome.');const stage=document.getElementById('fStage').value;const x={id:Date.now(),name:n,handle:document.getElementById('fHandle').value.trim(),phone:document.getElementById('fPhone').value.trim(),biz:document.getElementById('fBiz').value.trim(),stage,reply:document.getElementById('fReply').value.trim(),due:stage==='aguardando'?plus(2):today(),updated:Date.now()};data.push(x);save();currentId=x.id;['fName','fHandle','fPhone','fBiz','fReply'].forEach(id=>document.getElementById(id).value='');document.getElementById('fStage').value='abordar';tab('hoje')}
+save();render();renderPeople();
+</script>
+</body>
+</html>
