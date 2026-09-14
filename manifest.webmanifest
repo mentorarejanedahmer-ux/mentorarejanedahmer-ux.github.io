@@ -1,0 +1,18 @@
+{
+  "name": "Re*Nascente Social Seller",
+  "short_name": "ReNascente",
+  "description": "Secretária digital de Social Selling do Método Re*Nascente RD",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f7f2ee",
+  "theme_color": "#a55f62",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
