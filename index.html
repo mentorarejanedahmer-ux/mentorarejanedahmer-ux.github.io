@@ -4,23 +4,36 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#a55f62">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="ReNascente">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icon.svg">
 <title>Re*Nascente Social Seller</title>
 <style>
 :root{--bg:#f7f2ee;--card:#fff;--text:#2c2223;--muted:#75696b;--rose:#a55f62;--green:#718b76;--gold:#b68c51;--line:#e8ddd8;--danger:#765456}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}.wrap{max-width:780px;margin:auto;padding:16px 14px 42px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px}h1{font-size:28px;margin:5px 0 2px}.muted,.small{color:var(--muted);font-size:13px}.privacy{background:#edf5ee;border:1px solid #d6e5d8;border-radius:12px;padding:10px 12px;margin:12px 0;font-size:13px}.backupbar{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 12px}.nav{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.nav button.active{background:var(--rose);color:#fff}button{border:0;border-radius:12px;padding:12px 14px;font-size:15px;font-weight:800;cursor:pointer}.primary{background:var(--rose);color:#fff}.green{background:var(--green);color:#fff}.gold{background:var(--gold);color:#fff}.gray{background:#eee7e3;color:var(--text)}.danger{background:var(--danger);color:#fff}.row{display:flex;gap:8px;flex-wrap:wrap}.row button{flex:1;min-width:130px}.counts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}.count{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center}.count b{display:block;font-size:21px}.badge{display:inline-block;background:#ead5d2;border-radius:999px;padding:6px 9px;font-size:12px;font-weight:800;margin-top:8px}.msg{background:#faf6f3;border:1px solid var(--line);border-radius:14px;padding:13px;margin:12px 0;white-space:pre-wrap;line-height:1.45}.hidden{display:none!important}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px;font-size:15px;background:#fff;color:var(--text)}textarea{min-height:80px;resize:vertical}label{display:block;font-size:12px;color:var(--muted);margin:10px 0 5px}.item{border:1px solid var(--line);border-radius:12px;padding:11px;margin-top:8px;background:#fff}.item b{display:block}.mini{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.mini button{padding:8px 10px;font-size:12px}.empty{text-align:center;padding:22px 12px}.empty h2{margin:0 0 8px}@media(max-width:600px){.counts{grid-template-columns:repeat(2,1fr)}h1{font-size:25px}.row button{min-width:115px}.backupbar{grid-template-columns:1fr}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}.wrap{max-width:780px;margin:auto;padding:16px 14px 42px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px}h1{font-size:28px;margin:5px 0 2px}.muted,.small{color:var(--muted);font-size:13px}.privacy{background:#edf5ee;border:1px solid #d6e5d8;border-radius:12px;padding:10px 12px;margin:12px 0;font-size:13px}.installbox{background:#fff5e8;border:1px solid #ecd6b4;border-radius:14px;padding:12px;margin:10px 0}.installbox button{width:100%;margin-top:8px}.backupbar{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 12px}.nav{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.nav button.active{background:var(--rose);color:#fff}button{border:0;border-radius:12px;padding:12px 14px;font-size:15px;font-weight:800;cursor:pointer}.primary{background:var(--rose);color:#fff}.green{background:var(--green);color:#fff}.gold{background:var(--gold);color:#fff}.gray{background:#eee7e3;color:var(--text)}.danger{background:var(--danger);color:#fff}.row{display:flex;gap:8px;flex-wrap:wrap}.row button{flex:1;min-width:130px}.counts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}.count{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center}.count b{display:block;font-size:21px}.badge{display:inline-block;background:#ead5d2;border-radius:999px;padding:6px 9px;font-size:12px;font-weight:800;margin-top:8px}.msg{background:#faf6f3;border:1px solid var(--line);border-radius:14px;padding:13px;margin:12px 0;white-space:pre-wrap;line-height:1.45}.hidden{display:none!important}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px;font-size:15px;background:#fff;color:var(--text)}textarea{min-height:80px;resize:vertical}label{display:block;font-size:12px;color:var(--muted);margin:10px 0 5px}.item{border:1px solid var(--line);border-radius:12px;padding:11px;margin-top:8px;background:#fff}.item b{display:block}.mini{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.mini button{padding:8px 10px;font-size:12px}.empty{text-align:center;padding:22px 12px}.empty h2{margin:0 0 8px}.leadphoto{width:72px;height:72px;border-radius:14px;object-fit:cover;border:1px solid var(--line);display:block;margin:10px 0}.thumb{width:48px;height:48px;border-radius:10px;object-fit:cover;border:1px solid var(--line);float:right;margin-left:8px}.photohelp{font-size:12px;color:var(--muted);margin-top:5px}.preview{max-width:110px;max-height:110px;border-radius:12px;margin-top:8px;border:1px solid var(--line)}@media(max-width:600px){.counts{grid-template-columns:repeat(2,1fr)}h1{font-size:25px}.row button{min-width:115px}.backupbar{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <h1>Re*Nascente Social Seller</h1>
 <div class="muted">Abra. Faça o que aparece. Marque o resultado.</div>
-<div class="privacy"><b>Privacidade:</b> os contatos, respostas e números que você cadastrar ficam salvos somente neste navegador/aparelho. Eles não são publicados no GitHub.</div>
+
+<div class="installbox" id="installBox">
+<b>Colocar o app na primeira tela do celular</b>
+<div class="small" id="installText">Instale para abrir como um aplicativo, sem precisar procurar o link.</div>
+<button class="gold" onclick="installApp()">INSTALAR NO CELULAR</button>
+</div>
+
+<div class="privacy"><b>Privacidade:</b> contatos, respostas, números e fotos que você cadastrar ficam somente neste navegador/aparelho. Eles não são publicados no GitHub.</div>
 <div class="backupbar">
 <button class="primary" onclick="exportBackup()">FAZER BACKUP</button>
 <button class="gray" onclick="document.getElementById('backupFile').click()">RESTAURAR BACKUP</button>
 <input id="backupFile" class="hidden" type="file" accept="application/json,.json" onchange="importBackup(event)">
 </div>
-<div class="small" style="margin:-4px 2px 12px">O backup baixa um arquivo com suas leads. Guarde-o no celular, iCloud ou Drive.</div>
+<div class="small" style="margin:-4px 2px 12px">Guarde o backup no celular, iCloud ou Drive.</div>
 
 <div class="nav">
 <button id="bHoje" class="active" onclick="tab('hoje')">HOJE</button>
@@ -35,9 +48,9 @@
 <div class="count"><b id="nWA">0</b><span class="small">WhatsApp</span></div>
 <div class="count"><b id="nDiag">0</b><span class="small">diagnóstico</span></div>
 </div>
-
 <div class="card" id="taskCard">
 <div class="small">FAÇA ISSO AGORA</div>
+<img id="leadPhoto" class="leadphoto hidden" alt="Foto da lead">
 <h2 id="name"></h2>
 <div id="handle" class="muted"></div>
 <div id="stage" class="badge"></div>
@@ -67,7 +80,6 @@
 <button class="gray" onclick="nextLead()">Próxima</button>
 </div>
 </div>
-
 <div class="card empty hidden" id="emptyCard">
 <h2>Seu app está pronto.</h2>
 <p class="muted">Nenhuma pessoa cadastrada neste aparelho ainda.</p>
@@ -84,8 +96,13 @@
 
 <section id="add" class="hidden">
 <div class="card">
+<label>Foto ou print do Instagram</label>
+<input id="fPhoto" type="file" accept="image/*" onchange="previewPhoto(event)">
+<div class="photohelp">A foto fica salva apenas neste aparelho. Ela serve para você reconhecer a pessoa rapidamente.</div>
+<img id="photoPreview" class="preview hidden" alt="Prévia">
 <label>Nome</label><input id="fName" autocomplete="off">
 <label>@ Instagram</label><input id="fHandle" placeholder="@perfil" autocomplete="off">
+<label>Link do perfil do Instagram</label><input id="fProfileUrl" placeholder="https://instagram.com/perfil" autocomplete="off" oninput="fillHandleFromUrl()">
 <label>WhatsApp com DDD</label><input id="fPhone" inputmode="tel" placeholder="48999999999" autocomplete="off">
 <label>Profissão / negócio</label><input id="fBiz" autocomplete="off">
 <label>Etapa</label>
@@ -105,22 +122,25 @@
 
 <script>
 const STORAGE_KEY='renascente_ss_free_v2';
+let deferredPrompt=null;let pendingPhoto='';
 const today=()=>{const d=new Date();const z=new Date(d.getTime()-d.getTimezoneOffset()*60000);return z.toISOString().slice(0,10)};
 const plus=n=>{const d=new Date();d.setDate(d.getDate()+n);const z=new Date(d.getTime()-d.getTimezoneOffset()*60000);return z.toISOString().slice(0,10)};
 const terminal=s=>['fechou','naoprocurar','bloqueou'].includes(s);
 const labels={abordar:'ABORDAR',aguardando:'AGUARDAR',respondeu:'RESPONDEU',levar_whatsapp:'LEVAR PARA WHATSAPP',whatsapp:'NO WHATSAPP',diagnostico:'DIAGNÓSTICO',fechou:'FECHOU MENTORIA',naoprocurar:'NÃO PROCURAR MAIS',bloqueou:'ME BLOQUEOU'};
-let data=[];
-try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');data=Array.isArray(saved)?saved:[]}catch(e){data=[]}
-let currentId=null;
+let data=[];try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');data=Array.isArray(saved)?saved:[]}catch(e){data=[]}let currentId=null;
 const save=()=>localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
-function exportBackup(){const payload={app:'ReNascente Social Seller',version:1,exportedAt:new Date().toISOString(),leads:data};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='ReNascente_Backup_'+today()+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);alert('Backup criado. Guarde o arquivo em um lugar seguro, como iCloud ou Google Drive.')}
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;document.getElementById('installText').textContent='Pronto para instalar. Toque no botão abaixo.'});
+window.addEventListener('appinstalled',()=>{document.getElementById('installBox').classList.add('hidden')});
+function isIOS(){return /iphone|ipad|ipod/i.test(navigator.userAgent)}
+async function installApp(){if(window.matchMedia('(display-mode: standalone)').matches||navigator.standalone){alert('O Re*Nascente já está instalado neste celular.');return}if(deferredPrompt){deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;return}if(isIOS()){alert('No iPhone: abra este app no Safari, toque no botão Compartilhar e depois em “Adicionar à Tela de Início”.');return}alert('Abra o menu do navegador e escolha “Instalar app” ou “Adicionar à tela inicial”.')}
+function exportBackup(){const payload={app:'ReNascente Social Seller',version:2,exportedAt:new Date().toISOString(),leads:data};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='ReNascente_Backup_'+today()+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);alert('Backup criado. Guarde o arquivo em um lugar seguro, como iCloud ou Google Drive.')}
 async function importBackup(event){const file=event.target.files&&event.target.files[0];if(!file)return;try{const text=await file.text();const obj=JSON.parse(text);const leads=Array.isArray(obj)?obj:(obj&&Array.isArray(obj.leads)?obj.leads:null);if(!leads)throw new Error('arquivo inválido');if(!confirm('Restaurar este backup? Os dados atuais deste aparelho serão substituídos pelos dados do arquivo.'))return;data=leads;save();currentId=null;render();renderPeople();alert('Backup restaurado com sucesso.')}catch(e){alert('Não consegui restaurar esse arquivo. Escolha um backup criado pelo Re*Nascente Social Seller.')}finally{event.target.value=''}}
 function priority(x){if(terminal(x.stage))return 99;if(x.stage==='respondeu')return 1;if(x.stage==='levar_whatsapp')return 2;if(x.stage==='whatsapp')return 3;if(x.stage==='diagnostico')return 4;if(x.stage==='aguardando'&&x.due&&x.due<=today())return 5;if(x.stage==='abordar')return 6;return 8}
 function queue(){return data.filter(x=>!terminal(x.stage)).sort((a,b)=>priority(a)-priority(b)||(a.updated||0)-(b.updated||0))}
 function current(){const q=queue();if(!q.length)return null;const found=q.find(x=>x.id===currentId);const x=found||q[0];currentId=x.id;return x}
 function firstName(n){return (n||'').trim().split(/\s+/)[0]||'Oi'}
 function messageFor(x){const f=firstName(x.name);if(x.stage==='abordar')return `Oi, ${f}! Passei pelo teu perfil e me chamou atenção o trabalho que você vem construindo${x.biz?' com '+x.biz:''}. Fiquei curiosa para conhecer um pouco melhor esse momento profissional que você está vivendo.`;if(x.stage==='aguardando')return x.due&&x.due<=today()?`Oi, ${f}! Retomando nossa conversa por aqui porque fiquei pensando no teu momento profissional. Como estão as coisas por aí?`:`Aguardar até ${x.due||'o próximo follow-up'}. Não mandar nova mensagem agora.`;if(x.stage==='respondeu')return `Ela respondeu:\n“${x.reply||''}”\n\nReconheça o que ela disse e faça UMA pergunta por vez. O objetivo é criar abertura e depois levar para o WhatsApp.`;if(x.stage==='levar_whatsapp')return `${f}, quero continuar essa conversa com mais profundidade porque pelo que você me contou existe um ponto importante aí no teu momento profissional. Vamos seguir pelo WhatsApp. Me envia teu número por aqui que eu te chamo.`;if(x.stage==='whatsapp')return `${f}, quero retomar nossa conversa por aqui e entender melhor esse momento do teu negócio. Me conta: qual é o ponto que mais está te incomodando ou limitando teu crescimento hoje?`;if(x.stage==='diagnostico')return 'Conduza para a Sessão Diagnóstico: dor atual → impacto → desejo → custo de continuar igual.';return ''}
-function render(){document.getElementById('nResp').textContent=data.filter(x=>x.stage==='respondeu').length;document.getElementById('nFollow').textContent=data.filter(x=>x.stage==='aguardando'&&x.due&&x.due<=today()).length;document.getElementById('nWA').textContent=data.filter(x=>['levar_whatsapp','whatsapp'].includes(x.stage)).length;document.getElementById('nDiag').textContent=data.filter(x=>x.stage==='diagnostico').length;const x=current();const task=document.getElementById('taskCard'),empty=document.getElementById('emptyCard');if(!x){task.classList.add('hidden');empty.classList.remove('hidden');return}task.classList.remove('hidden');empty.classList.add('hidden');document.getElementById('name').textContent=x.name;document.getElementById('handle').textContent=[x.handle,x.phone?'WhatsApp: '+x.phone:''].filter(Boolean).join(' · ');document.getElementById('stage').textContent=labels[x.stage]||x.stage;document.getElementById('message').textContent=messageFor(x)}
+function render(){document.getElementById('nResp').textContent=data.filter(x=>x.stage==='respondeu').length;document.getElementById('nFollow').textContent=data.filter(x=>x.stage==='aguardando'&&x.due&&x.due<=today()).length;document.getElementById('nWA').textContent=data.filter(x=>['levar_whatsapp','whatsapp'].includes(x.stage)).length;document.getElementById('nDiag').textContent=data.filter(x=>x.stage==='diagnostico').length;const x=current();const task=document.getElementById('taskCard'),empty=document.getElementById('emptyCard'),img=document.getElementById('leadPhoto');if(!x){task.classList.add('hidden');empty.classList.remove('hidden');return}task.classList.remove('hidden');empty.classList.add('hidden');if(x.photo){img.src=x.photo;img.classList.remove('hidden')}else{img.classList.add('hidden');img.removeAttribute('src')}document.getElementById('name').textContent=x.name;document.getElementById('handle').textContent=[x.handle,x.phone?'WhatsApp: '+x.phone:''].filter(Boolean).join(' · ');document.getElementById('stage').textContent=labels[x.stage]||x.stage;document.getElementById('message').textContent=messageFor(x)}
 function nextLead(){const q=queue();if(!q.length)return;const i=q.findIndex(x=>x.id===currentId);currentId=q[(i+1)%q.length].id;render()}
 async function copyMsg(){const text=document.getElementById('message').textContent;try{await navigator.clipboard.writeText(text);alert('Mensagem copiada.')}catch(e){alert('Não consegui copiar automaticamente. Pressione e segure a mensagem para copiar.')}}
 function openIG(){const x=current();if(!x||!x.handle)return alert('Cadastre o @ do Instagram desta pessoa.');const h=x.handle.trim().replace(/^@/,'');location.href='https://www.instagram.com/'+encodeURIComponent(h)+'/'}
@@ -128,11 +148,15 @@ function openWA(){const x=current();if(!x||!x.phone)return alert('Cadastre o Wha
 function result(s){const x=current();if(!x)return;if(s==='bloqueou'&&!confirm('Retirar definitivamente da fila porque bloqueou?'))return;if(s==='naoprocurar'&&!confirm('Retirar definitivamente da fila e não procurar mais?'))return;if(s==='fechou'&&!confirm('Marcar como mentoria fechada?'))return;if(s==='respondeu'){const r=prompt('Cole aqui a resposta dela:');if(r!==null)x.reply=r;x.stage='respondeu';x.due=today()}else if(s==='enviada'){x.stage='aguardando';x.due=plus(2)}else{x.stage=s;if(['whatsapp','diagnostico'].includes(s))x.due=today()}x.updated=Date.now();save();currentId=null;render();renderPeople()}
 function snooze(n){const x=current();if(!x)return;x.stage='aguardando';x.due=plus(n);x.updated=Date.now();save();currentId=null;render();renderPeople()}
 function tab(t){['hoje','pessoas','add'].forEach(id=>document.getElementById(id).classList.toggle('hidden',id!==t));document.getElementById('bHoje').classList.toggle('active',t==='hoje');document.getElementById('bPessoas').classList.toggle('active',t==='pessoas');document.getElementById('bAdd').classList.toggle('active',t==='add');if(t==='hoje')render();if(t==='pessoas')renderPeople()}
-function renderPeople(){const q=(document.getElementById('search').value||'').toLowerCase();const list=document.getElementById('list');list.innerHTML='';const arr=data.filter(x=>(x.name+' '+(x.handle||'')+' '+(x.biz||'')).toLowerCase().includes(q)).sort((a,b)=>(b.updated||0)-(a.updated||0));arr.forEach(x=>{const d=document.createElement('div');d.className='item';d.innerHTML=`<b>${escapeHtml(x.name)}</b><div class="small">${escapeHtml(x.handle||'')} · ${escapeHtml(labels[x.stage]||x.stage)}</div><div class="mini"><button class="gray" onclick="editLead(${x.id})">Editar</button>${!terminal(x.stage)?`<button class="primary" onclick="work(${x.id})">Trabalhar agora</button>`:''}</div>`;list.appendChild(d)});if(!arr.length)list.innerHTML='<div class="empty muted">Nenhuma pessoa encontrada.</div>'}
+function renderPeople(){const q=(document.getElementById('search').value||'').toLowerCase();const list=document.getElementById('list');list.innerHTML='';const arr=data.filter(x=>(x.name+' '+(x.handle||'')+' '+(x.biz||'')).toLowerCase().includes(q)).sort((a,b)=>(b.updated||0)-(a.updated||0));arr.forEach(x=>{const d=document.createElement('div');d.className='item';d.innerHTML=`${x.photo?`<img class="thumb" src="${x.photo}" alt="">`:''}<b>${escapeHtml(x.name)}</b><div class="small">${escapeHtml(x.handle||'')} · ${escapeHtml(labels[x.stage]||x.stage)}</div><div class="mini"><button class="gray" onclick="editLead(${x.id})">Editar</button>${!terminal(x.stage)?`<button class="primary" onclick="work(${x.id})">Trabalhar agora</button>`:''}</div>`;list.appendChild(d)});if(!arr.length)list.innerHTML='<div class="empty muted">Nenhuma pessoa encontrada.</div>'}
 function escapeHtml(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
 function editLead(id){const x=data.find(z=>z.id===id);if(!x)return;const p=prompt('WhatsApp com DDD:',x.phone||'');if(p!==null)x.phone=p.trim();const h=prompt('@ do Instagram:',x.handle||'');if(h!==null)x.handle=h.trim();const s=prompt('Etapa: abordar, aguardando, respondeu, levar_whatsapp, whatsapp, diagnostico, fechou, naoprocurar, bloqueou',x.stage);if(s&&['abordar','aguardando','respondeu','levar_whatsapp','whatsapp','diagnostico','fechou','naoprocurar','bloqueou'].includes(s))x.stage=s;x.updated=Date.now();save();renderPeople();render()}
 function work(id){currentId=id;tab('hoje')}
-function addLead(){const n=document.getElementById('fName').value.trim();if(!n)return alert('Coloque o nome.');const stage=document.getElementById('fStage').value;const x={id:Date.now(),name:n,handle:document.getElementById('fHandle').value.trim(),phone:document.getElementById('fPhone').value.trim(),biz:document.getElementById('fBiz').value.trim(),stage,reply:document.getElementById('fReply').value.trim(),due:stage==='aguardando'?plus(2):today(),updated:Date.now()};data.push(x);save();currentId=x.id;['fName','fHandle','fPhone','fBiz','fReply'].forEach(id=>document.getElementById(id).value='');document.getElementById('fStage').value='abordar';tab('hoje')}
+function fillHandleFromUrl(){const v=document.getElementById('fProfileUrl').value.trim();const m=v.match(/instagram\.com\/([^\/?#]+)/i);if(m&&m[1])document.getElementById('fHandle').value='@'+m[1].replace(/^@/,'')}
+function previewPhoto(event){const file=event.target.files&&event.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=e=>{const img=new Image();img.onload=()=>{const max=320;let w=img.width,h=img.height;if(w>h&&w>max){h=Math.round(h*max/w);w=max}else if(h>=w&&h>max){w=Math.round(w*max/h);h=max}const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);pendingPhoto=c.toDataURL('image/jpeg',0.62);const p=document.getElementById('photoPreview');p.src=pendingPhoto;p.classList.remove('hidden')};img.src=e.target.result};reader.readAsDataURL(file)}
+function addLead(){const n=document.getElementById('fName').value.trim();if(!n)return alert('Coloque o nome.');const stage=document.getElementById('fStage').value;const x={id:Date.now(),name:n,handle:document.getElementById('fHandle').value.trim(),phone:document.getElementById('fPhone').value.trim(),biz:document.getElementById('fBiz').value.trim(),stage,reply:document.getElementById('fReply').value.trim(),due:stage==='aguardando'?plus(2):today(),updated:Date.now(),photo:pendingPhoto||''};data.push(x);try{save()}catch(e){x.photo='';save();alert('A foto ficou grande demais para o armazenamento do navegador. Salvei a pessoa sem a foto.')}currentId=x.id;['fName','fHandle','fProfileUrl','fPhone','fBiz','fReply','fPhoto'].forEach(id=>document.getElementById(id).value='');document.getElementById('fStage').value='abordar';pendingPhoto='';const p=document.getElementById('photoPreview');p.classList.add('hidden');p.removeAttribute('src');tab('hoje')}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}))}
+if(window.matchMedia('(display-mode: standalone)').matches||navigator.standalone){document.getElementById('installBox').classList.add('hidden')}
 save();render();renderPeople();
 </script>
 </body>
