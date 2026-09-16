@@ -59,7 +59,17 @@
 <b>Colocar o app na primeira tela do celular</b>
 <div class="small" id="installText">Instale para abrir como um aplicativo, sem precisar procurar o link.</div>
 <button class="gold" onclick="installApp()">INSTALAR NO CELULAR</button>
-</div>
+
+<script>
+async function sendAccessLink(){
+ const email=document.getElementById("accessEmail").value.trim().toLowerCase();
+ if(!/^\S+@\S+\.\S+$/.test(email))return accessMessage("Digite um e-mail válido.",true);
+ accessMessage("Enviando o e-mail para criar sua senha…");
+ const {error}=await authClient.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname+"?create_password=1"});
+ if(error)return accessMessage("Não consegui enviar agora. Tente novamente em alguns minutos.",true);
+ accessMessage("Enviamos o e-mail. Abra o link para criar sua senha e liberar o aplicativo.");
+}
+</script></div>
 
 <div class="privacy"><b>Privacidade:</b> contatos, respostas, números e fotos que você cadastrar ficam somente neste navegador/aparelho. Eles não são publicados no GitHub.</div>
 <div class="backupbar">
