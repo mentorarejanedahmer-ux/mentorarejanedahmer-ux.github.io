@@ -40,6 +40,18 @@
 </div>
 </section>
 
+<section id="passwordSetup" class="gate hidden">
+<div class="gatecard">
+<img src="capa-assinatura.png" alt="Re*Nascente Social Seller">
+<h1>Crie sua senha de acesso</h1>
+<p class="sales-copy">Seu pagamento foi confirmado. Seu login será o mesmo e-mail usado na compra.</p>
+<input id="newPassword" type="password" autocomplete="new-password" placeholder="Crie uma senha com pelo menos 8 caracteres">
+<input id="confirmPassword" type="password" autocomplete="new-password" placeholder="Repita a nova senha">
+<button class="primary" onclick="completePasswordSetup()">CRIAR SENHA E ABRIR APLICATIVO</button>
+<div id="passwordStatus" class="access-status muted" role="status" aria-live="polite"></div>
+</div>
+</section>
+
 <div class="wrap hidden" id="appShell">
 <div class="topline"><div><h1>Re*Nascente Social Seller</h1><div class="muted">Abra. Faça o que aparece. Marque o resultado.</div></div><button class="gray" onclick="signOut()">Sair</button></div>
 
@@ -161,6 +173,7 @@
 const CHECKOUT_URL='https://pay.kiwify.com.br/8DepYDO';
 const SUPABASE_URL='https://vjpcivbmnhqapbrlqeli.supabase.co';
 const SUPABASE_KEY='sb_publishable_KAEYQhr92si-oeFd03qINQ_5WXTU423';
+let inviteFlow=location.hash.includes('type=invite')||location.search.includes('create_password=1');
 const authClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 const STORAGE_KEY='renascente_ss_free_v2';
 let deferredPrompt=null;let pendingPhoto='';
@@ -186,8 +199,18 @@ async function checkAccess(){
  if(!session){document.getElementById('accessGate').classList.remove('hidden');document.getElementById('appShell').classList.add('hidden');return}
  const {data:subscription,error}=await authClient.from('subscriptions').select('status,access_until').eq('email',session.user.email.toLowerCase()).maybeSingle();
  const active=!error&&subscription&&subscription.status==='active'&&new Date(subscription.access_until)>new Date();
- if(active){document.getElementById('accessGate').classList.add('hidden');document.getElementById('appShell').classList.remove('hidden');save();render();renderPeople();return}
+ if(active&&inviteFlow){document.getElementById('accessGate').classList.add('hidden');document.getElementById('appShell').classList.add('hidden');document.getElementById('passwordSetup').classList.remove('hidden');return}
+ if(active){document.getElementById('accessGate').classList.add('hidden');document.getElementById('passwordSetup').classList.add('hidden');document.getElementById('appShell').classList.remove('hidden');save();render();renderPeople();return}
  await authClient.auth.signOut();document.getElementById('accessGate').classList.remove('hidden');document.getElementById('appShell').classList.add('hidden');accessMessage('Sua assinatura não está ativa. Regularize o pagamento para continuar.',true);
+}
+async function completePasswordSetup(){
+ const password=document.getElementById('newPassword').value,confirmPassword=document.getElementById('confirmPassword').value,status=document.getElementById('passwordStatus');
+ if(password.length<8){status.textContent='A senha precisa ter pelo menos 8 caracteres.';return}
+ if(password!==confirmPassword){status.textContent='As duas senhas não são iguais.';return}
+ status.textContent='Criando sua senha…';
+ const {error}=await authClient.auth.updateUser({password});
+ if(error){status.textContent='Não consegui criar a senha. Abra novamente o acesso recebido no seu e-mail.';return}
+ inviteFlow=false;history.replaceState({},'',location.pathname);status.textContent='Senha criada. Abrindo o aplicativo…';checkAccess();
 }
 async function signOut(){await authClient.auth.signOut();document.getElementById('appShell').classList.add('hidden');document.getElementById('accessGate').classList.remove('hidden');accessMessage('Você saiu do aplicativo.')}
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;document.getElementById('installText').textContent='Pronto para instalar. Toque no botão abaixo.'});
