@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="theme-color" content="#a55f62">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="ReNascente">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icon.svg">
+<title>Re*Nascente Social Seller</title>
+<style>
+:root{--bg:#f7f2ee;--card:#fff;--text:#2c2223;--muted:#75696b;--rose:#a55f62;--green:#718b76;--gold:#b68c51;--line:#e8ddd8;--danger:#765456}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}.wrap{max-width:780px;margin:auto;padding:16px 14px 42px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px}h1{font-size:28px;margin:5px 0 2px}.muted,.small{color:var(--muted);font-size:13px}.privacy{background:#edf5ee;border:1px solid #d6e5d8;border-radius:12px;padding:10px 12px;margin:12px 0;font-size:13px}.installbox{background:#fff5e8;border:1px solid #ecd6b4;border-radius:14px;padding:12px;margin:10px 0}.installbox button{width:100%;margin-top:8px}.backupbar{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 12px}.nav{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.nav button.active{background:var(--rose);color:#fff}button{border:0;border-radius:12px;padding:12px 14px;font-size:15px;font-weight:800;cursor:pointer}.primary{background:var(--rose);color:#fff}.green{background:var(--green);color:#fff}.gold{background:var(--gold);color:#fff}.gray{background:#eee7e3;color:var(--text)}.danger{background:var(--danger);color:#fff}.row{display:flex;gap:8px;flex-wrap:wrap}.row button{flex:1;min-width:130px}.counts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}.count{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center}.count b{display:block;font-size:21px}.badge{display:inline-block;background:#ead5d2;border-radius:999px;padding:6px 9px;font-size:12px;font-weight:800;margin-top:8px}.msg{background:#faf6f3;border:1px solid var(--line);border-radius:14px;padding:13px;margin:12px 0;white-space:pre-wrap;line-height:1.45}.hidden{display:none!important}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px;font-size:15px;background:#fff;color:var(--text)}textarea{min-height:80px;resize:vertical}label{display:block;font-size:12px;color:var(--muted);margin:10px 0 5px}.item{border:1px solid var(--line);border-radius:12px;padding:11px;margin-top:8px;background:#fff}.item b{display:block}.mini{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.mini button{padding:8px 10px;font-size:12px}.empty{text-align:center;padding:22px 12px}.empty h2{margin:0 0 8px}.leadphoto{width:72px;height:72px;border-radius:14px;object-fit:cover;border:1px solid var(--line);display:block;margin:10px 0}.thumb{width:48px;height:48px;border-radius:10px;object-fit:cover;border:1px solid var(--line);float:right;margin-left:8px}.photohelp{font-size:12px;color:var(--muted);margin-top:5px}.preview{max-width:110px;max-height:110px;border-radius:12px;margin-top:8px;border:1px solid var(--line)}@media(max-width:600px){.counts{grid-template-columns:repeat(2,1fr)}h1{font-size:25px}.row button{min-width:115px}.backupbar{grid-template-columns:1fr}}
+.analysis{background:#fff8ec;border:1px solid #ead5ad;border-radius:14px;padding:13px;margin-top:12px}.analysis strong{display:block;font-size:16px;margin-bottom:5px}.pmi-forte{color:#4f7658}.pmi-possivel{color:#9a6b24}.pmi-nao{color:#765456}.pmi-revisar{color:var(--muted)}.gate{min-height:100dvh;display:grid;place-items:center;padding:20px;background:linear-gradient(150deg,#251512,#57301f 58%,#8b6234)}.gatecard{width:min(100%,470px);background:#fff;border-radius:24px;padding:22px;box-shadow:0 24px 70px #160b0870;text-align:center}.gatecard img{width:100%;border-radius:16px;display:block;margin-bottom:18px}.gatecard h1{font-size:29px;line-height:1.12;margin:4px 0 12px}.sales-copy{font-size:17px;line-height:1.48;color:#5f5052;margin:0 auto 12px}.sales-copy b{color:var(--text)}.benefit{background:#f8f0e7;border:1px solid #ead7bc;border-radius:14px;padding:12px 14px;font-size:16px;line-height:1.4;font-weight:750;color:#513d31;margin:12px 0}.price{font-size:30px;font-weight:900;color:var(--gold);margin:10px 0}.gatecard input{margin:8px 0}.gatecard button{width:100%;margin-top:9px}.checkout-cta{font-size:16px;padding:15px 12px;box-shadow:0 8px 20px #8d653044}.microcopy{font-size:14px;color:var(--muted);margin-top:8px}.member-login{margin-top:18px;padding-top:15px;border-top:1px solid var(--line)}.member-login summary{cursor:pointer;font-weight:800;color:var(--rose);font-size:14px;list-style:none}.member-login summary::-webkit-details-marker{display:none}.member-login p{font-size:14px;color:var(--muted);line-height:1.4}.access-status{min-height:22px;margin-top:10px;font-size:14px}.topline{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.topline button{padding:8px 10px;font-size:12px}@media(max-width:600px){.gate{display:block;padding:10px}.gatecard{padding:16px;border-radius:20px}.gatecard img{display:none}.gatecard h1{font-size:26px;margin:2px 0 8px}.sales-copy{font-size:15px;line-height:1.35;margin-bottom:9px}.benefit{font-size:15px;line-height:1.32;padding:10px 12px;margin:9px 0}.price{font-size:27px;margin:8px 0}.checkout-cta{font-size:15px;padding:13px 10px}.microcopy{font-size:13px}.member-login{margin-top:12px;padding-top:12px}.member-login p{margin:8px 0;font-size:13px}.gatecard input{margin:6px 0}.gatecard button{margin-top:7px;padding:11px}}
+</style>
+</head>
+<body>
+<section id="accessGate" class="gate">
+<div class="gatecard">
+<img src="capa-assinatura.png" alt="Re*Nascente Social Seller por R$ 19,90 por mÃªs">
+<h1>Pare de perder vendas por falta de acompanhamento</h1>
+<p class="sales-copy">VocÃª ainda perde horas procurando possÃ­veis clientes, pensando no que escrever e esquecendo quem precisa de retorno?</p>
+<div class="benefit">O Re*Nascente Social Seller analisa perfis, indica quem abordar, prepara a mensagem e organiza seus follow-ups para vocÃª <b>vender mais com muito mais facilidade.</b></div>
+<div class="price">R$ 19,90/mÃªs</div>
+<button class="gold checkout-cta" onclick="openCheckout()">QUERO VENDER MAIS COM MENOS ESFORÃO</button>
+<div class="microcopy">Clique no botÃ£o para assinar e liberar seu acesso.</div>
+<details class="member-login">
+<summary>JÃ SOU ASSINANTE â ENTRAR</summary>
+<p>No primeiro acesso, crie sua senha pelo mesmo e-mail usado na assinatura. Depois, entre diretamente com ela.</p>
+<input id="accessEmail" type="email" autocomplete="email" placeholder="Seu e-mail de assinante">
+<input id="accessPassword" type="password" autocomplete="current-password" placeholder="Sua senha de acesso">
+<button class="primary" onclick="signInSubscriber()">ENTRAR NO APLICATIVO</button>
+<button class="gray" onclick="sendPasswordSetup()">PRIMEIRO ACESSO â CRIAR SENHA</button>
+<div id="accessStatus" class="access-status muted" role="status" aria-live="polite"></div>
+</details>
+</div>
+</section>
+
+<section id="passwordSetup" class="gate hidden">
+<div class="gatecard">
+<img src="capa-assinatura.png" alt="Re*Nascente Social Seller">
+<h1>Crie sua senha de acesso</h1>
+<p class="sales-copy">Seu pagamento foi confirmado. Seu login serÃ¡ o mesmo e-mail usado na compra.</p>
+<input id="newPassword" type="password" autocomplete="new-password" placeholder="Crie uma senha com pelo menos 8 caracteres">
+<input id="confirmPassword" type="password" autocomplete="new-password" placeholder="Repita a nova senha">
+<button class="primary" onclick="completePasswordSetup()">CRIAR SENHA E ABRIR APLICATIVO</button>
+<div id="passwordStatus" class="access-status muted" role="status" aria-live="polite"></div>
+</div>
+</section>
+
+<div class="wrap hidden" id="appShell">
+<div class="topline"><div><h1>Re*Nascente Social Seller</h1><div class="muted">Abra. FaÃ§a o que aparece. Marque o resultado.</div></div><button class="gray" onclick="signOut()">Sair</button></div>
+
+<div class="installbox" id="installBox">
+<b>Colocar o app na primeira tela do celular</b>
+<div class="small" id="installText">Instale para abrir como um aplicativo, sem precisar procurar o link.</div>
+<button class="gold" onclick="installApp()">INSTALAR NO CELULAR</button>
+</div>
+
+<div class="privacy"><b>Salvamento automÃ¡tico:</b> cada PMI, conversa, resposta e etapa fica guardada na sua Ã¡rea segura. Nada Ã© publicado no GitHub.</div>
+<div class="backupbar">
+<button class="primary" onclick="exportBackup()">BACKUP OPCIONAL</button>
+<button class="gray" onclick="document.getElementById('backupFile').click()">RESTAURAR BACKUP</button>
+<input id="backupFile" class="hidden" type="file" accept="application/json,.json" onchange="importBackup(event)">
+</div>
+<div class="small" id="syncStatus" style="margin:-4px 2px 12px">Seus dados sÃ£o salvos automaticamente.</div>
+
+<div class="nav">
+<button id="bHoje" class="active" onclick="tab('hoje')">HOJE</button>
+<button id="bPessoas" class="gray" onclick="tab('pessoas')">PESSOAS</button>
+<button id="bAdd" class="gray" onclick="tab('add')">+ ADICIONAR</button>
+</div>
+
+<section id="hoje">
+<div class="counts">
+<div class="count"><b id="nResp">0</b><span class="small">responder</span></div>
+<div class="count"><b id="nFollow">0</b><span class="small">follow-up</span></div>
+<div class="count"><b id="nWA">0</b><span class="small">WhatsApp</span></div>
+<div class="count"><b id="nDiag">0</b><span class="small">diagnÃ³stico</span></div>
+</div>
+<div class="card" id="taskCard">
+<div class="small">FAÃA ISSO AGORA</div>
+<img id="leadPhoto" class="leadphoto hidden" alt="Foto da lead">
+<h2 id="name"></h2>
+<div id="handle" class="muted"></div>
+<div id="stage" class="badge"></div>
+<label style="margin-top:14px">AnotaÃ§Ãµes desta PMI</label>
+<textarea id="leadNotes" rows="3" placeholder="Ex.: Viva Mar Farma Â· Morretes Â· Itapema. Escreva aqui detalhes importantes desta pessoa." oninput="updateNotes(this.value)"></textarea>
+<div class="small">Salva automaticamente.</div>
+<div id="message" class="msg"></div>
+<label style="margin-top:14px">HistÃ³rico da conversa</label>
+<textarea id="conversation" rows="7" placeholder="Cole aqui a conversa que jÃ¡ aconteceu no Instagram. Ela ficarÃ¡ salva nesta PMI para vocÃª continuar do ponto certo." oninput="updateConversation(this.value)"></textarea>
+<div class="small">Cole toda a conversa aqui, inclusive mensagens anteriores. Salva automaticamente.</div>
+<div class="row">
+<button class="gray" onclick="openIG()">Abrir Instagram</button>
+<button class="green" onclick="openWA()">Abrir WhatsApp</button>
+<button class="primary" onclick="copyMsg()">Copiar mensagem</button>
+</div>
+<hr style="border:0;border-top:1px solid var(--line);margin:15px 0">
+<div class="small"><b>O QUE ACONTECEU?</b></div>
+<div class="row" style="margin-top:8px">
+<button class="gray" onclick="result('enviada')">Enviei</button>
+<button class="danger" onclick="result('nao_respondeu')">NÃ£o respondeu</button>
+<button class="green" onclick="result('respondeu')">Respondeu</button>
+<button class="gold" onclick="result('levar_whatsapp')">Levar p/ WhatsApp</button>
+<button class="gray" onclick="result('whatsapp')">JÃ¡ estÃ¡ no WhatsApp</button>
+<button class="gray" onclick="result('diagnostico')">DiagnÃ³stico</button>
+</div>
+<div class="small" style="margin:12px 2px 0"><b>OBJETIVO ALCANÃADO</b></div>
+<div class="row" style="margin-top:8px">
+<button class="green" onclick="reachGoal('Agendou call')">Agendou call</button>
+<button class="green" onclick="reachGoal('Agendou diagnÃ³stico')">Agendou diagnÃ³stico</button>
+<button class="green" onclick="reachGoal('Fechou venda')">Fechou venda</button>
+<button class="gray" onclick="reachGoal('Outro')">Outro objetivo</button>
+</div>
+<div class="row" style="margin-top:8px">
+<button class="gold" onclick="result('naoprocurar')">NÃ£o procurar mais</button>
+<button class="danger" onclick="result('bloqueou')">Me bloqueou</button>
+</div>
+<div class="row" style="margin-top:8px">
+<button class="gray" onclick="snooze(1)">Adiar 1 dia</button>
+<button class="gray" onclick="snooze(3)">Adiar 3 dias</button>
+<button class="gray" onclick="nextLead()">PrÃ³xima</button>
+</div>
+</div>
+<div class="card empty hidden" id="emptyCard">
+<h2>Seu app estÃ¡ pronto.</h2>
+<p class="muted">Nenhuma pessoa cadastrada neste aparelho ainda.</p>
+<button class="primary" onclick="tab('add')">Adicionar primeira pessoa</button>
+</div>
+</section>
+
+<section id="pessoas" class="hidden">
+<div class="card">
+<input id="search" placeholder="Buscar nome, @ ou negÃ³cio" oninput="renderPeople()">
+<div id="list"></div>
+</div>
+</section>
+
+<section id="add" class="hidden">
+<div class="card">
+<label>Foto ou print do Instagram</label>
+<input id="fPhoto" type="file" accept="image/*" onchange="previewPhoto(event)">
+<div class="photohelp" style="font-size:14px">Anexe um print com o topo do perfil. Nome, @ e WhatsApp visÃ­vel serÃ£o preenchidos para vocÃª conferir. A imagem fica neste aparelho. A primeira leitura precisa de internet.</div>
+<div id="photoStatus" role="status" aria-live="polite" style="font-size:16px;margin-top:10px"></div>
+<img id="photoPreview" class="preview hidden" alt="PrÃ©via">
+<div id="pmiAnalysis" class="analysis hidden" role="status" aria-live="polite">
+<strong id="pmiTitle"></strong>
+<div id="pmiReason" class="small"></div>
+</div>
+<label>Nome</label><input id="fName" autocomplete="off">
+<label>@ Instagram</label><input id="fHandle" placeholder="@perfil" autocomplete="off">
+<label>Link do perfil do Instagram</label><input id="fProfileUrl" placeholder="https://instagram.com/perfil" autocomplete="off" oninput="fillHandleFromUrl()">
+<label>WhatsApp com DDD</label><input id="fPhone" inputmode="tel" placeholder="48999999999" autocomplete="off">
+<label>ProfissÃ£o / negÃ³cio</label><input id="fBiz" autocomplete="off">
+<label>ClassificaÃ§Ã£o PMI</label>
+<select id="fPmi">
+<option value="revisar">Revisar perfil</option>
+<option value="forte">PMI forte</option>
+<option value="possivel">PossÃ­vel PMI</option>
+<option value="nao">NÃ£o prioritÃ¡ria</option>
+</select>
+<label>Motivo da classificaÃ§Ã£o</label><textarea id="fPmiReason" placeholder="O aplicativo preencherÃ¡ apÃ³s analisar o print."></textarea>
+<label>Etapa</label>
+<select id="fStage">
+<option value="abordar">Abordar</option>
+<option value="aguardando">Aguardando resposta</option>
+<option value="respondeu">Respondeu</option>
+<option value="levar_whatsapp">Levar para WhatsApp</option>
+<option value="whatsapp">JÃ¡ estÃ¡ no WhatsApp</option>
+<option value="diagnostico">DiagnÃ³stico</option>
+</select>
+<label>Ãltima resposta dela</label><textarea id="fReply"></textarea>
+<label>Conversa jÃ¡ iniciada no Instagram</label><textarea id="fConversation" rows="7" placeholder="Cole aqui toda a conversa que jÃ¡ aconteceu. VocÃª poderÃ¡ continuar depois sem perder nada."></textarea>
+<button id="saveLead" class="primary" style="width:100%;margin-top:12px" onclick="addLead()">Salvar e trabalhar</button>
+</div>
+</section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.min.js"></script>
+<script>
+const CHECKOUT_URL='https://pay.kiwify.com.br/8DepYDO';
+const SUPABASE_URL='https://vjpcivbmnhqapbrlqeli.supabase.co';
+const SUPABASE_KEY='sb_publishable_KAEYQhr92si-oeFd03qINQ_5WXTU423';
+let inviteFlow=location.hash.includes('type=invite')||location.hash.includes('type=recovery')||location.search.includes('create_password=1');
+const authClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const STORAGE_KEY='renascente_ss_free_v2';
+let deferredPrompt=null;let pendingPhoto='';
+const today=()=>{const d=new Date();const z=new Date(d.getTime()-d.getTimezoneOffset()*60000);return z.toISOString().slice(0,10)};
+const plus=n=>{const d=new Date();d.setDate(d.getDate()+n);const z=new Date(d.getTime()-d.getTimezoneOffset()*60000);return z.toISOString().slice(0,10)};
+const terminal=s=>['fechou','naoprocurar','bloqueou'].includes(s);
+const labels={abordar:'ABORDAR',aguardando:'AGUARDAR',nao_respondeu:'NÃO RESPONDEU',respondeu:'RESPONDEU',levar_whatsapp:'LEVAR PARA WHATSAPP',whatsapp:'NO WHATSAPP',diagnostico:'DIAGNÃSTICO',fechou:'FECHOU MENTORIA',naoprocurar:'NÃO PROCURAR MAIS',bloqueou:'ME BLOQUEOU'};
+const pmiLabels={forte:'PMI FORTE',possivel:'POSSÃVEL PMI',nao:'NÃO PRIORITÃRIA',revisar:'REVISAR PERFIL'};
+let data=[];try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');data=Array.isArray(saved)?saved:[]}catch(e){data=[]}let currentId=null;
+let activeUserId=null,syncTimer=null,syncing=false;
+const newId=()=>crypto.randomUUID?crypto.randomUUID():(Date.now().toString(36)+Math.random().toString(36).slice(2));
+function syncMessage(text){const el=document.getElementById('syncStatus');if(el)el.textContent=text}
+function normalizeLead(x){return {...x,id:typeof x.id==='string'&&x.id.length>20?x.id:newId(),conversation:x.conversation||'',reply:x.reply||'',updated:x.updated||Date.now()}}
+function toRow(x){return {id:x.id,user_id:activeUserId,name:x.name,handle:x.handle||null,profile_url:x.profileUrl||null,phone:x.phone||null,business:x.biz||null,pmi:x.pmi||null,pmi_reason:x.pmiReason||null,stage:x.stage||'abordar',conversation:x.conversation||'',notes:x.notes||'',outcome:x.outcome||null,reply:x.reply||'',due:x.due||null,no_reply_count:x.noReplyCount||0,photo_data:x.photo||null,updated_at:new Date(x.updated||Date.now()).toISOString()}}
+function fromRow(x){return {id:x.id,name:x.name,handle:x.handle||'',profileUrl:x.profile_url||'',phone:x.phone||'',biz:x.business||'',pmi:x.pmi||'revisar',pmiReason:x.pmi_reason||'',stage:x.stage||'abordar',conversation:x.conversation||'',notes:x.notes||'',outcome:x.outcome||'',reply:x.reply||'',due:x.due||today(),noReplyCount:x.no_reply_count||0,photo:x.photo_data||'',updated:new Date(x.updated_at||Date.now()).getTime()}}
+function save(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(data))}catch(e){};queueSync()}
+function queueSync(){if(!activeUserId||syncing)return;clearTimeout(syncTimer);syncMessage('Salvando automaticamenteâ¦');syncTimer=setTimeout(syncAll,450)}
+async function syncAll(){if(!activeUserId||syncing)return;syncing=true;try{const rows=data.map(toRow);if(rows.length){const {error}=await authClient.from('social_seller_leads').upsert(rows,{onConflict:'id'});if(error)throw error}syncMessage('Tudo salvo automaticamente.')}catch(e){syncMessage('Salvo neste aparelho; tentando sincronizar novamente.')}finally{syncing=false}}
+async function loadPersistentLeads(){const {data:{session}}=await authClient.auth.getSession();if(!session)return;activeUserId=session.user.id;data=data.map(normalizeLead);const localLeads=[...data];const {data:remote,error}=await authClient.from('social_seller_leads').select('*').eq('user_id',activeUserId).order('updated_at',{ascending:false});if(error){syncMessage('Usando a cÃ³pia deste aparelho enquanto reconecta.');return}const migrationKey='renascente_migrated_'+activeUserId;if(!localStorage.getItem(migrationKey)&&localLeads.length){data=localLeads;await syncAll();localStorage.setItem(migrationKey,'1')}else data=(remote||[]).map(fromRow);save();syncMessage('Tudo salvo automaticamente.')}
+function openCheckout(){location.href=CHECKOUT_URL}
+function accessMessage(text,error=false){const el=document.getElementById('accessStatus');el.textContent=text;el.style.color=error?'#8b3030':''}
+function subscriberEmail(){
+ const email=document.getElementById('accessEmail').value.trim().toLowerCase();
+ if(!/^\S+@\S+\.\S+$/.test(email))return accessMessage('Digite um e-mail vÃ¡lido.',true);
+ return email;
+}
+async function signInSubscriber(){
+ const email=subscriberEmail(),password=document.getElementById('accessPassword').value;
+ if(!email)return;
+ if(!password)return accessMessage('Digite sua senha ou toque em âPrimeiro acesso â criar senhaâ.',true);
+ accessMessage('Entrandoâ¦');
+ const {error}=await authClient.auth.signInWithPassword({email,password});
+ if(error)return accessMessage('NÃ£o consegui entrar com esse e-mail e senha. No primeiro acesso, toque em âCriar senhaâ.',true);
+}
+async function sendPasswordSetup(){
+ const email=subscriberEmail();if(!email)return;
+ accessMessage('Enviando o e-mail para criar sua senhaâ¦');
+ const {error}=await authClient.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname+'?create_password=1'});
+ if(error)return accessMessage('NÃ£o consegui enviar agora. Tente novamente em alguns minutos.',true);
+ accessMessage('Enviamos o e-mail. Abra o link para criar sua senha e liberar o aplicativo.');
+}
+async function checkAccess(){
+ const {data:{session}}=await authClient.auth.getSession();
+ if(!session){document.getElementById('accessGate').classList.remove('hidden');document.getElementById('appShell').classList.add('hidden');return}
+ const {data:subscription,error}=await authClient.from('subscriptions').select('status,access_until').eq('email',session.user.email.toLowerCase()).maybeSingle();
+ const active=!error&&subscription&&subscription.status==='active'&&new Date(subscription.access_until)>new Date();
+ if(active&&inviteFlow){document.getElementById('accessGate').classList.add('hidden');document.getElementById('appShell').classList.add('hidden');document.getElementById('passwordSetup').classList.remove('hidden');return}
+ if(active){document.getElementById('accessGate').classList.add('hidden');document.getElementById('passwordSetup').classList.add('hidden');document.getElementById('appShell').classList.remove('hidden');await loadPersistentLeads();render();renderPeople();return}
+ await authClient.auth.signOut();document.getElementById('accessGate').classList.remove('hidden');document.getElementById('appShell').classList.add('hidden');accessMessage('Sua assinatura nÃ£o estÃ¡ ativa. Regularize o pagamento para continuar.',true);
+}
+async function completePasswordSetup(){
+ const password=document.getElementById('newPassword').value,confirmPassword=document.getElementById('confirmPassword').value,status=document.getElementById('passwordStatus');
+ if(password.length<8){status.textContent='A senha precisa ter pelo menos 8 caracteres.';return}
+ if(password!==confirmPassword){status.textContent='As duas senhas nÃ£o sÃ£o iguais.';return}
+ status.textContent='Criando sua senhaâ¦';
+ const {error}=await authClient.auth.updateUser({password});
+ if(error){status.textContent='NÃ£o consegui criar a senha. Abra novamente o acesso recebido no seu e-mail.';return}
+ inviteFlow=false;history.replaceState({},'',location.pathname);status.textContent='Senha criada. Abrindo o aplicativoâ¦';checkAccess();
+}
+async function signOut(){await authClient.auth.signOut();document.getElementById('appShell').classList.add('hidden');document.getElementById('accessGate').classList.remove('hidden');accessMessage('VocÃª saiu do aplicativo.')}
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;document.getElementById('installText').textContent='Pronto para instalar. Toque no botÃ£o abaixo.'});
+window.addEventListener('appinstalled',()=>{document.getElementById('installBox').classList.add('hidden')});
+function isIOS(){return /iphone|ipad|ipod/i.test(navigator.userAgent)}
+async function installApp(){if(window.matchMedia('(display-mode: standalone)').matches||navigator.standalone){alert('O Re*Nascente jÃ¡ estÃ¡ instalado neste celular.');return}if(deferredPrompt){deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;return}if(isIOS()){alert('No iPhone: abra este app no Safari, toque no botÃ£o Compartilhar e depois em âAdicionar Ã  Tela de InÃ­cioâ.');return}alert('Abra o menu do navegador e escolha âInstalar appâ ou âAdicionar Ã  tela inicialâ.')}
+function exportBackup(){const payload={app:'ReNascente Social Seller',version:2,exportedAt:new Date().toISOString(),leads:data};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='ReNascente_Backup_'+today()+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);alert('Backup criado. Guarde o arquivo em um lugar seguro, como iCloud ou Google Drive.')}
+async function importBackup(event){const file=event.target.files&&event.target.files[0];if(!file)return;try{const text=await file.text();const obj=JSON.parse(text);const leads=Array.isArray(obj)?obj:(obj&&Array.isArray(obj.leads)?obj.leads:null);if(!leads)throw new Error('arquivo invÃ¡lido');if(!confirm('Restaurar este backup? Os dados atuais deste aparelho serÃ£o substituÃ­dos pelos dados do arquivo.'))return;data=leads;save();currentId=null;render();renderPeople();alert('Backup restaurado com sucesso.')}catch(e){alert('NÃ£o consegui restaurar esse arquivo. Escolha um backup criado pelo Re*Nascente Social Seller.')}finally{event.target.value=''}}
+function priority(x){if(terminal(x.stage))return 99;if(x.stage==='respondeu')return 1;if(x.stage==='levar_whatsapp')return 2;if(x.stage==='whatsapp')return 3;if(x.stage==='diagnostico')return 4;if(['aguardando','nao_respondeu'].includes(x.stage)&&x.due&&x.due<=today())return 5;if(x.stage==='abordar')return 6;return 8}
+function queue(){return data.filter(x=>!terminal(x.stage)).sort((a,b)=>priority(a)-priority(b)||(a.updated||0)-(b.updated||0))}
+function current(){const q=queue();if(!q.length)return null;const found=q.find(x=>x.id===currentId);const x=found||q[0];currentId=x.id;return x}
+function firstName(n){return (n||'').trim().split(/\s+/)[0]||'Oi'}
+function messageFor(x){const f=firstName(x.name);if(x.stage==='abordar')return `Oi, ${f}! Passei pelo teu perfil e me chamou atenÃ§Ã£o o trabalho que vocÃª vem construindo${x.biz?' com '+x.biz:''}. Hoje vocÃª estÃ¡ Ã  frente do seu prÃ³prio negÃ³cio ou trabalha em parceria?`;if(['aguardando','nao_respondeu'].includes(x.stage))return x.due&&x.due<=today()?`Oi, ${f}! Retomando nossa conversa por aqui porque fiquei curiosa para conhecer melhor o teu momento profissional. Como estÃ£o as coisas por aÃ­?`:`Aguardar atÃ© ${x.due||'o prÃ³ximo follow-up'}. NÃ£o mandar nova mensagem agora.`;if(x.stage==='respondeu')return `Ela respondeu:\nâ${x.reply||''}â\n\nReconheÃ§a o que ela disse e faÃ§a UMA pergunta por vez. O objetivo Ã© criar abertura e depois levar para o WhatsApp.`;if(x.stage==='levar_whatsapp')return `${f}, quero continuar essa conversa com mais profundidade porque pelo que vocÃª me contou existe um ponto importante aÃ­ no teu momento profissional. Vamos seguir pelo WhatsApp. Me envia teu nÃºmero por aqui que eu te chamo.`;if(x.stage==='whatsapp')return `${f}, quero retomar nossa conversa por aqui e entender melhor esse momento do teu negÃ³cio. Me conta: qual Ã© o ponto que mais estÃ¡ te incomodando ou limitando teu crescimento hoje?`;if(x.stage==='diagnostico')return 'Conduza para a SessÃ£o DiagnÃ³stico: dor atual â impacto â desejo â custo de continuar igual.';return ''}
+function render(){document.getElementById('nResp').textContent=data.filter(x=>x.stage==='respondeu').length;document.getElementById('nFollow').textContent=data.filter(x=>['aguardando','nao_respondeu'].includes(x.stage)&&x.due&&x.due<=today()).length;document.getElementById('nWA').textContent=data.filter(x=>['levar_whatsapp','whatsapp'].includes(x.stage)).length;document.getElementById('nDiag').textContent=data.filter(x=>x.stage==='diagnostico').length;const x=current();const task=document.getElementById('taskCard'),empty=document.getElementById('emptyCard'),img=document.getElementById('leadPhoto');if(!x){task.classList.add('hidden');empty.classList.remove('hidden');return}task.classList.remove('hidden');empty.classList.add('hidden');if(x.photo){img.src=x.photo;img.classList.remove('hidden')}else{img.classList.add('hidden');img.removeAttribute('src')}document.getElementById('name').textContent=x.name;document.getElementById('handle').textContent=[x.handle,x.phone?'WhatsApp: '+x.phone:'',pmiLabels[x.pmi||'revisar']].filter(Boolean).join(' Â· ');document.getElementById('stage').textContent=x.outcome?x.outcome:(labels[x.stage]||x.stage);document.getElementById('leadNotes').value=x.notes||'';document.getElementById('message').textContent=messageFor(x);document.getElementById('conversation').value=x.conversation||''}
+function nextLead(){const q=queue();if(!q.length)return;const i=q.findIndex(x=>x.id===currentId);currentId=q[(i+1)%q.length].id;render()}
+async function copyMsg(){const text=document.getElementById('message').textContent;try{await navigator.clipboard.writeText(text);alert('Mensagem copiada.')}catch(e){alert('NÃ£o consegui copiar automaticamente. Pressione e segure a mensagem para copiar.')}}
+function openIG(){const x=current();if(!x||!x.handle)return alert('Cadastre o @ do Instagram desta pessoa.');const h=x.handle.trim().replace(/^@/,'');const w=window.open('https://www.instagram.com/'+encodeURIComponent(h)+'/', '_blank','noopener');if(!w)alert('Seu navegador bloqueou a nova aba. Permita pop-ups para abrir o Instagram sem sair do aplicativo.')}
+function openWA(){const x=current();if(!x||!x.phone)return alert('Cadastre o WhatsApp desta pessoa em PESSOAS.');let p=x.phone.replace(/\D/g,'');if(!p.startsWith('55'))p='55'+p;const w=window.open('https://wa.me/'+p+'?text='+encodeURIComponent(messageFor(x)), '_blank','noopener');if(!w)alert('Seu navegador bloqueou a nova aba. Permita pop-ups para abrir o WhatsApp sem sair do aplicativo.')}
+function updateConversation(value){const x=current();if(!x)return;x.conversation=value;x.updated=Date.now();save()}
+function updateNotes(value){const x=current();if(!x)return;x.notes=value;x.updated=Date.now();save()}
+function reachGoal(goal){const x=current();if(!x)return;const outcome=goal==='Outro'?prompt('Qual foi o objetivo alcanÃ§ado? Ex.: Agendou visita, Vendeu curso, Fechou atendimento.'):goal;if(!outcome||!outcome.trim())return;x.stage='fechou';x.outcome=outcome.trim();x.updated=Date.now();save();currentId=null;render();renderPeople()}
+function result(s){const x=current();if(!x)return;if(s==='bloqueou'&&!confirm('Retirar definitivamente da fila porque bloqueou?'))return;if(s==='naoprocurar'&&!confirm('Retirar definitivamente da fila e nÃ£o procurar mais?'))return;if(s==='fechou'&&!confirm('Marcar como objetivo alcanÃ§ado?'))return;if(s==='respondeu'){const r=prompt('Cole a Ãºltima resposta dela (ou cole a conversa inteira no campo HistÃ³rico da conversa):');if(r!==null&&r.trim()){x.reply=r.trim();x.conversation=[x.conversation,`Ela respondeu:\n${r.trim()}`].filter(Boolean).join('\n\n')}x.stage='respondeu';x.due=today()}else if(s==='enviada'){x.stage='aguardando';x.due=plus(2)}else if(s==='nao_respondeu'){x.stage='nao_respondeu';x.noReplyCount=(x.noReplyCount||0)+1;x.due=plus(x.noReplyCount===1?3:7)}else{x.stage=s;if(['whatsapp','diagnostico'].includes(s))x.due=today()}x.updated=Date.now();save();currentId=null;render();renderPeople()}
+function snooze(n){const x=current();if(!x)return;x.stage='aguardando';x.due=plus(n);x.updated=Date.now();save();currentId=null;render();renderPeople()}
+function tab(t){['hoje','pessoas','add'].forEach(id=>document.getElementById(id).classList.toggle('hidden',id!==t));document.getElementById('bHoje').classList.toggle('active',t==='hoje');document.getElementById('bPessoas').classList.toggle('active',t==='pessoas');document.getElementById('bAdd').classList.toggle('active',t==='add');if(t==='hoje')render();if(t==='pessoas')renderPeople()}
+function renderPeople(){const q=(document.getElementById('search').value||'').toLowerCase();const list=document.getElementById('list');list.innerHTML='';const arr=data.filter(x=>(x.name+' '+(x.handle||'')+' '+(x.biz||'')+' '+(pmiLabels[x.pmi||'revisar']||'')).toLowerCase().includes(q)).sort((a,b)=>(b.updated||0)-(a.updated||0));arr.forEach(x=>{const d=document.createElement('div');d.className='item';d.innerHTML=`${x.photo?`<img class="thumb" src="${x.photo}" alt="">`:''}<b>${escapeHtml(x.name)}</b><div class="small">${escapeHtml(x.handle||'')} Â· ${escapeHtml(pmiLabels[x.pmi||'revisar'])} Â· ${escapeHtml(labels[x.stage]||x.stage)}</div><div class="mini"><button class="gray" onclick="editLead('${x.id}')">Editar</button>${!terminal(x.stage)?`<button class="primary" onclick="work('${x.id}')">Trabalhar agora</button>`:''}</div>`;list.appendChild(d)});if(!arr.length)list.innerHTML='<div class="empty muted">Nenhuma pessoa encontrada.</div>'}
+function escapeHtml(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+function editLead(id){const x=data.find(z=>z.id===id);if(!x)return;const p=prompt('WhatsApp com DDD:',x.phone||'');if(p!==null)x.phone=p.trim();const h=prompt('@ do Instagram:',x.handle||'');if(h!==null)x.handle=h.trim();const c=prompt('Conversa jÃ¡ iniciada (pode colar tudo aqui):',x.conversation||'');if(c!==null)x.conversation=c.trim();const s=prompt('Etapa: abordar, aguardando, nao_respondeu, respondeu, levar_whatsapp, whatsapp, diagnostico, fechou, naoprocurar, bloqueou',x.stage);if(s&&['abordar','aguardando','nao_respondeu','respondeu','levar_whatsapp','whatsapp','diagnostico','fechou','naoprocurar','bloqueou'].includes(s))x.stage=s;x.updated=Date.now();save();renderPeople();render()}
+function work(id){currentId=id;tab('hoje')}
+function fillHandleFromUrl(){const v=document.getElementById('fProfileUrl').value.trim();const m=v.match(/instagram\.com\/([^\/?#]+)/i);if(m&&m[1])document.getElementById('fHandle').value='@'+m[1].replace(/^@/,'')}
+let photoJob=0,photoBusy=false,ocrLibrary;
+function loadPhotoReader(){
+ if(window.Tesseract)return Promise.resolve();
+ if(!ocrLibrary)ocrLibrary=new Promise((resolve,reject)=>{
+  const script=document.createElement('script');
+  script.src='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';
+  script.onload=()=>resolve();script.onerror=()=>{script.remove();ocrLibrary=null;reject(new Error('offline'))};
+  document.head.appendChild(script);
+ });
+ return ocrLibrary;
+}
+function parseProfileText(text){
+ const lines=text.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
+ const stats=lines.findIndex(s=>/\b(posts?|publica[Ã§c][Ãµo]es|seguidores|followers)\b/i.test(s));
+ const top=lines.slice(0,stats<0?8:stats);
+ const ignored=/^(instagram|perfil|profile|voltar|back|editar|edit|seguir|follow|mensagem|message|destaques|highlights)$/i;
+ let handle='',at=-1;
+ for(let i=0;i<top.length;i++){
+  const raw=top[i].replace(/^[^\w@]+|[^\w.]+$/g,'');
+  if(/^@?[a-zA-Z0-9_][a-zA-Z0-9_.]{1,29}$/.test(raw)&&/[a-zA-Z]/.test(raw)&&!ignored.test(raw)){
+   handle='@'+raw.replace(/^@/,'');at=i;break;
+  }
+ }
+ const nameLine=s=>/^[\p{L}][\p{L}\p{M} .â'&|â-]{1,79}$/u.test(s)&&!ignored.test(s)&&!/(seguindo|seguidores|publica[Ã§c][Ãµo]es|posts|followers|following|editar perfil|painel profissional|ver tradu[Ã§c][Ã£a]o)/i.test(s);
+ let name=top.slice(at+1).find(nameLine)||'';
+ // Some Instagram layouts place the display name below the statistics.
+ if(!name&&handle&&stats>=0)name=lines.slice(stats+1,stats+7).find(nameLine)||'';
+ const phoneCandidates=[...text.matchAll(/(?:\+?55[\s.-]*)?\(?[1-9]\d\)?[\s.-]*(?:9[\s.-]*)?\d{4}[\s.-]*\d{4}\b/g)].map(m=>m[0].replace(/\D/g,''));
+ const unique=[...new Set(phoneCandidates.filter(p=>/^(?:55)?[1-9]\d9?\d{8}$/.test(p)))];
+ return {name,handle,phone:unique.length===1?unique[0]:''};
+}
+function analyzePmi(text){
+ const clean=(' '+text+' ').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+ const strong=['empresaria','empreendedora','fundadora','ceo','proprietaria','socia','diretora','clinica','escritorio','loja','studio','estudio','marca propria','negocio','empresa'];
+ const professional=['arquiteta','arquitetura','advogada','dentista','medica','corretora','terapeuta','consultora','mentora','esteticista','psicologa','contadora','engenheira','designer','nutricionista','imobiliaria','arq e urb'];
+ const commerce=['orcamento','agendamento','atendimento','clientes','vendas','encomendas','delivery','whatsapp','linktr.ee','contato','servicos'];
+ const personal=['blogueiro(a)','blog pessoal','perfil pessoal'];
+ const hits=list=>list.filter(k=>clean.includes(k));
+ const owners=hits(strong),prof=hits(professional),market=hits(commerce),onlyPersonal=hits(personal);
+ let level='revisar',reason='O print nÃ£o mostra informaÃ§Ãµes profissionais suficientes. Confira o perfil antes de abordar.';
+ if(owners.length&&(prof.length||market.length)){level='forte';reason='HÃ¡ sinais de que ela lidera um negÃ³cio e apresenta atuaÃ§Ã£o profissional ou comercial.'}
+ else if(owners.length||prof.length||market.length){level='possivel';reason='HÃ¡ sinais de profissÃ£o, negÃ³cio ou atendimento, mas ainda Ã© necessÃ¡rio confirmar se ela Ã© empresÃ¡ria e o momento da empresa.'}
+ else if(onlyPersonal.length){level='nao';reason='O perfil parece principalmente pessoal e nÃ£o apresenta sinais visÃ­veis de negÃ³cio.'}
+ return {level,reason,biz:[...new Set([...prof,...owners])].slice(0,3).join(' / ')};
+}
+function showPmiAnalysis(result){
+ const box=document.getElementById('pmiAnalysis'),title=document.getElementById('pmiTitle');
+ title.textContent=pmiLabels[result.level];title.className='pmi-'+result.level;
+ document.getElementById('pmiReason').textContent=result.reason;box.classList.remove('hidden');
+ document.getElementById('fPmi').value=result.level;document.getElementById('fPmiReason').value=result.reason;
+}
+async function previewPhoto(event){
+ const job=++photoJob,file=event.target.files&&event.target.files[0];
+ const status=document.getElementById('photoStatus'),button=document.getElementById('saveLead');
+ if(!file)return;
+ const fields=['fName','fHandle','fProfileUrl','fPhone'];
+ const before=Object.fromEntries(fields.map(id=>[id,document.getElementById(id).value]));
+ pendingPhoto='';photoBusy=true;button.disabled=true;status.textContent='Lendo o printâ¦';
+ const preview=document.getElementById('photoPreview');preview.classList.add('hidden');
+ let worker,url;
+ try{
+  if(file.size>20*1024*1024)throw new Error('size');
+  url=URL.createObjectURL(file);const img=new Image();img.src=url;await img.decode();
+  if(job!==photoJob)return;
+  const thumb=document.createElement('canvas'),ratio=Math.min(1,320/Math.max(img.width,img.height));
+  thumb.width=Math.round(img.width*ratio);thumb.height=Math.round(img.height*ratio);
+  thumb.getContext('2d').drawImage(img,0,0,thumb.width,thumb.height);
+  pendingPhoto=thumb.toDataURL('image/jpeg',0.62);preview.src=pendingPhoto;preview.classList.remove('hidden');
+  // Read a clear header at original resolution, never the compressed thumbnail.
+  const crop=document.createElement('canvas'),height=Math.min(img.height,Math.round(img.width*1.1));
+  const scale=Math.min(2,1600/img.width);crop.width=Math.round(img.width*scale);crop.height=Math.round(height*scale);
+  crop.getContext('2d').drawImage(img,0,0,img.width,height,0,0,crop.width,crop.height);
+  await loadPhotoReader();if(job!==photoJob)return;
+  worker=await Tesseract.createWorker('por+eng',1,{logger:m=>{
+   if(job===photoJob&&m.status==='recognizing text')status.textContent='Lendo o printâ¦ '+Math.round(m.progress*100)+'%';
+  }});
+  const result=await worker.recognize(crop);if(job!==photoJob)return;
+  const found=parseProfileText(result.data.text),pmi=analyzePmi(result.data.text);let filled=0;
+  for(const [id,value] of [['fName',found.name],['fHandle',found.handle],['fPhone',found.phone],['fProfileUrl',found.handle?'https://www.instagram.com/'+found.handle.slice(1)+'/':'']]){
+   const input=document.getElementById(id);
+   if(value&&input.value===before[id]&&!input.value.trim()){input.value=value;if(id==='fName'||id==='fHandle')filled++;}
+  }
+  if(pmi.biz&&!document.getElementById('fBiz').value.trim())document.getElementById('fBiz').value=pmi.biz;
+  showPmiAnalysis(pmi);
+  status.textContent=filled===2?'Nome e @ preenchidos.'+(found.phone?' WhatsApp identificado.':'')+' Confira e toque em Salvar e trabalhar.':filled?'Leitura parcial. Confira e complete o campo que ficou vazio.':'NÃ£o identifiquei nome e @ com seguranÃ§a. Use um print mais nÃ­tido do topo do perfil ou preencha abaixo.';
+ }catch(e){if(job===photoJob)status.textContent='NÃ£o consegui ler este print. Tente uma imagem JPG ou PNG nÃ­tida com internet, ou preencha os campos abaixo.';}
+ finally{if(url)URL.revokeObjectURL(url);if(worker)await worker.terminate().catch(()=>{});if(job===photoJob){photoBusy=false;button.disabled=false;}}
+}
+function addLead(){if(photoBusy)return;const n=document.getElementById('fName').value.trim();if(!n)return alert('Coloque o nome.');const h=document.getElementById('fHandle').value.trim().replace(/^@/,'').toLowerCase();if(h&&data.some(z=>(z.handle||'').replace(/^@/,'').toLowerCase()===h))return alert('Este @ jÃ¡ estÃ¡ cadastrado. Procure a pessoa em PESSOAS para continuar, sem duplicar o contato.');const stage=document.getElementById('fStage').value;const x={id:newId(),name:n,handle:document.getElementById('fHandle').value.trim(),profileUrl:document.getElementById('fProfileUrl').value.trim(),phone:document.getElementById('fPhone').value.trim(),biz:document.getElementById('fBiz').value.trim(),pmi:document.getElementById('fPmi').value,pmiReason:document.getElementById('fPmiReason').value.trim(),stage,reply:document.getElementById('fReply').value.trim(),conversation:document.getElementById('fConversation').value.trim(),due:stage==='aguardando'?plus(2):today(),updated:Date.now(),photo:pendingPhoto||''};data.push(x);save();currentId=x.id;['fName','fHandle','fProfileUrl','fPhone','fBiz','fPmiReason','fReply','fConversation','fPhoto'].forEach(id=>document.getElementById(id).value='');document.getElementById('fStage').value='abordar';document.getElementById('fPmi').value='revisar';document.getElementById('pmiAnalysis').classList.add('hidden');pendingPhoto='';photoJob++;document.getElementById('photoStatus').textContent='';const p=document.getElementById('photoPreview');p.classList.add('hidden');p.removeAttribute('src');tab('hoje')}
+if('serviceWorker' in navigator){window.addEventListener('load',async()=>{try{const registration=await navigator.serviceWorker.register('/sw.js?v=5',{updateViaCache:'none'});await registration.update()}catch(e){}})}
+if(window.matchMedia('(display-mode: standalone)').matches||navigator.standalone){document.getElementById('installBox').classList.add('hidden')}
+authClient.auth.onAuthStateChange(()=>setTimeout(checkAccess,0));checkAccess();
+</script>
+</body>
+</html>
