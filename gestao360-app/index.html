@@ -3,17 +3,17 @@
 <meta name="theme-color" content="#4f46e5"><meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Gestão 360"><link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icon.svg"><link rel="stylesheet" href="./style.css"><title>Gestão 360 do Comércio</title></head><body>
-<section id="authGate" class="gate"><div class="gatecard"><div class="brand">Re*Nascente <b>RD</b></div><small>Gestão 360 do Comércio</small>
+<section id="authGate" class="gate"><div class="gatecard"><div class="brand">Re*Nascente <b>RD</b></div><small>Gestão 360 do Comércio • V1</small>
 <h1>Entre no seu aplicativo</h1><p>Use seu e-mail e sua senha.</p><input id="loginEmail" type="email" placeholder="E-mail">
 <input id="loginPassword" type="password" placeholder="Senha"><button class="primary" onclick="signIn()">ENTRAR</button>
-<button onclick="showSignup()">PRIMEIRO ACESSO — CRIAR SENHA</button><a class="buy" href="https://pay.kiwify.com.br/CUnAMR0" target="_blank">AINDA NÃO COMPREI</a>
-<div id="authStatus" class="status"></div></div></section>
+<button onclick="showSignup()">PRIMEIRO ACESSO — CRIAR SENHA</button><button onclick="resetPassword()">ESQUECI MINHA SENHA</button><a class="buy" href="https://pay.kiwify.com.br/CUnAMR0" target="_blank">AINDA NÃO COMPREI</a>
+<div id="authStatus" class="status"></div><div class="muted" style="margin-top:12px;text-align:center"><a href="./privacidade.html" target="_blank">Privacidade</a> · <a href="./termos.html" target="_blank">Termos de Uso</a> · <a href="./ajuda.html" target="_blank">Ajuda</a></div></div></section>
 <section id="signupGate" class="gate hidden"><div class="gatecard"><div class="brand">Re*Nascente <b>RD</b></div><h1>Crie sua senha</h1>
 <p>Use o mesmo e-mail informado na compra.</p><input id="signupEmail" type="email" placeholder="E-mail da compra">
 <input id="signupPassword" type="password" placeholder="Crie uma senha"><input id="signupPassword2" type="password" placeholder="Repita a senha">
 <button class="primary" onclick="signUp()">CRIAR ACESSO</button><button onclick="showLogin()">VOLTAR</button><div id="signupStatus" class="status"></div></div></section>
-<section id="app" class="hidden"><header><div><div class="brand">Re*Nascente <b>RD</b></div><small>Gestão 360 do Comércio</small></div>
+<section id="app" class="hidden"><header><div><div class="brand">Re*Nascente <b>RD</b></div><small>Gestão 360 do Comércio • V1</small></div>
 <div class="headerActions"><button id="installBtn" class="primary" onclick="installApp()">⬇ Instalar</button><button onclick="forceUpdate()">↻ Atualizar</button><button onclick="signOut()">Sair</button></div></header>
-<nav id="nav"></nav><main id="content"></main></section>
+<nav id="nav"></nav><main id="content"></main><footer style="text-align:center;padding:12px 16px 30px;color:#667085;font-size:12px">Gestão 360 do Comércio — Re*Nascente RD · <a href="./privacidade.html" target="_blank">Privacidade</a> · <a href="./termos.html" target="_blank">Termos</a> · <a href="./ajuda.html" target="_blank">Ajuda</a></footer></section>
 <script src="./core.js"></script><script src="./finance.js"></script><script src="./modules.js"></script><script src="./fiscal-v2.js"></script><script src="./reports.js"></script><script src="./app.js"></script>
 </body></html>
