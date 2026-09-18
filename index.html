@@ -83,11 +83,28 @@
 <p class="small">Respostas primeiro, depois retornos atrasados, retornos de hoje e novas abordagens. Os próximos dias ficam guardados em PESSOAS.</p>
 <div id="dailyList"></div>
 </div>
-<details class="card"><summary><b>Orientações do meu negócio para a IA</b></summary>
-<label for="businessInstructions">O que você vende, para quem, objetivo da conversa, tom de voz e limites</label>
-<textarea id="businessInstructions" rows="5" maxlength="6000" placeholder="Ex.: vendo... ajudo... quero agendar... a sessão dura... Não oferecer descontos. Link de agendamento..."></textarea>
-<button class="primary" onclick="saveBusinessInstructions()">Salvar orientações</button><p class="small" id="settingsStatus" role="status"></p>
-<p class="small">As sugestões usam as orientações e a conversa desta pessoa. Revise antes de enviar. Instagram e WhatsApp ainda não estão conectados para envio automático.</p>
+<details class="card" id="businessSetup"><summary><b>Meu negócio — configurar meu atendimento</b></summary>
+<p class="small">Conte o que você oferece. Estas informações pertencem à sua conta e orientam as sugestões para seus contatos.</p>
+<label for="bizOffer">1. Qual é sua mentoria ou serviço? *</label>
+<textarea id="bizOffer" maxlength="700" rows="2" placeholder="Nome, tema e o que você entrega."></textarea>
+<label for="bizAudience">2. Quem você atende? *</label>
+<textarea id="bizAudience" maxlength="700" rows="2" placeholder="Perfil do público e principais necessidades."></textarea>
+<label for="bizGoal">3. Qual é o próximo passo desejado? *</label>
+<select id="bizGoal" onchange="toggleBusinessGoal()"><option value="">Selecione</option><option>Agendar sessão diagnóstico</option><option>Agendar call</option><option>Inscrição em grupo ou curso</option><option>Venda de mentoria ou serviço</option><option>Outro</option></select>
+<label for="bizOtherGoal" id="otherGoalLabel" class="hidden">Descreva seu objetivo</label><input id="bizOtherGoal" class="hidden" maxlength="250" placeholder="Ex.: agendar uma visita">
+<label for="bizTone">4. Como você gosta de conversar?</label>
+<input id="bizTone" maxlength="350" placeholder="Ex.: acolhedor e direto, mensagens curtas, uma pergunta por vez.">
+<label for="bizOfferDetails">5. Quais informações da oferta a IA pode usar?</label>
+<textarea id="bizOfferDetails" maxlength="800" rows="3" placeholder="Valor, duração, formato, condições e o que está incluído. Deixe vazio o que ainda não definiu."></textarea>
+<label for="bizBooking">6. Como funciona o agendamento?</label>
+<textarea id="bizBooking" maxlength="600" rows="3" placeholder="A sessão é gratuita ou paga? Quanto dura? Cole o link ou explique como combinar o horário."></textarea>
+<label for="bizLimits">7. Quais são os limites do atendimento?</label>
+<textarea id="bizLimits" maxlength="800" rows="3" placeholder="O que não prometer, descontos que não oferecer e quando chamar você para continuar."></textarea>
+<label for="businessInstructions">8. Outras orientações e exemplos do seu jeito de escrever</label>
+<textarea id="businessInstructions" rows="4" maxlength="1200" placeholder="Frases que usa ou evita e detalhes importantes. Suas orientações anteriores aparecem aqui."></textarea>
+<button class="primary" id="saveBusiness" onclick="saveBusinessInstructions()">Salvar meu negócio</button>
+<p class="small" id="settingsStatus" role="status"></p>
+<p class="small">A IA ainda depende da ativação da conta de inteligência artificial. Instagram e WhatsApp não estão conectados para envio automático. Revise as sugestões antes de enviar.</p>
 </details>
 <div class="counts">
 <div class="count"><b id="nResp">0</b><span class="small">responder</span></div>
@@ -442,11 +459,11 @@ loadPersistentLeads=async function(){
  if(!stored){let legacy=[];try{legacy=JSON.parse(localStorage.getItem('renascente_ss_free_v2')||'[]')}catch{};if(Array.isArray(legacy)){const owned=new Map((remote||[]).map(x=>[x.id,x]));for(const x of legacy){const r=owned.get(x.id);if(r&&Number(x.updated)>new Date(r.updated_at).getTime()){data.push(normalizeLead(x));dirtyIds.add(x.id)}}}}
  mergeRemote(remote||[]);await syncAll();
  const {data:settings}=await authClient.from('social_seller_settings').select('instructions').eq('user_id',activeUserId).maybeSingle();
- document.getElementById('businessInstructions').value=settings?.instructions||'';
+ loadBusinessProfile(settings?.instructions||'');
  try{const health=await fetch(SUPABASE_URL+'/functions/v1/social-seller-assistant',{signal:AbortSignal.timeout(8000)}).then(r=>r.json());document.getElementById('settingsStatus').textContent=health.configured?'IA configurada. Salve suas orientações antes de gerar.':'A IA ainda aguarda ativação da conta de inteligência artificial. A agenda e o follow-up manual já podem ser usados.';}catch{document.getElementById('settingsStatus').textContent='Não consegui verificar a disponibilidade da IA agora.';}
  })();try{return await loadingLeads}finally{loadingLeads=null}
 };
-signOut=async function(){await syncAll();await authClient.auth.signOut();activeUserId=null;data=[];dirtyIds.clear();observed.clear();currentId=null;document.getElementById('businessInstructions').value='';document.getElementById('appShell').classList.add('hidden');document.getElementById('accessGate').classList.remove('hidden');accessMessage('Você saiu do aplicativo.');};
+signOut=async function(){await syncAll();await authClient.auth.signOut();activeUserId=null;data=[];dirtyIds.clear();observed.clear();currentId=null;loadBusinessProfile('');document.getElementById('appShell').classList.add('hidden');document.getElementById('accessGate').classList.remove('hidden');accessMessage('Você saiu do aplicativo.');};
 function dueNow(x){return !terminal(x.stage)&&(!x.due||x.due<=today())}
 priority=function(x){if(x.stage==='respondeu')return 0;if(x.due&&x.due<today())return 1;if(x.stage==='abordar')return 3;return 2};
 queue=function(){return data.filter(dueNow).sort((a,b)=>priority(a)-priority(b)||(a.due||today()).localeCompare(b.due||today())||(a.updated||0)-(b.updated||0));};
@@ -468,17 +485,40 @@ async function refreshPanel(){
  try{save();if(!await syncAll())return;const {data:remote,error}=await authClient.from('social_seller_leads').select('*').eq('user_id',activeUserId);if(error)throw error;mergeRemote(remote||[]);render();renderPeople();syncMessage('Painel atualizado. Suas informações foram preservadas.');}
  catch{syncMessage('Não consegui atualizar agora. Seus dados foram preservados.');}finally{button.disabled=false}
 }
+const businessFields={oferta:'bizOffer',publico:'bizAudience',objetivo:'bizGoal',outro_objetivo:'bizOtherGoal',tom:'bizTone',detalhes:'bizOfferDetails',agendamento:'bizBooking',limites:'bizLimits',orientacoes:'businessInstructions'};
+function toggleBusinessGoal(){const other=document.getElementById('bizGoal').value==='Outro';document.getElementById('bizOtherGoal').classList.toggle('hidden',!other);document.getElementById('otherGoalLabel').classList.toggle('hidden',!other);}
+function loadBusinessProfile(text){
+ let profile={};try{const parsed=JSON.parse(text);if(parsed?.formato==='social-seller-business-v1')profile=parsed;else profile.orientacoes=text;}catch{profile.orientacoes=text;}
+ for(const [key,id] of Object.entries(businessFields))document.getElementById(id).value=profile[key]||'';
+ toggleBusinessGoal();
+}
+function readBusinessProfile(){
+ const profile={formato:'social-seller-business-v1'};
+ for(const [key,id] of Object.entries(businessFields))profile[key]=document.getElementById(id).value.trim();
+ if(profile.objetivo!=='Outro')profile.outro_objetivo='';
+ return profile;
+}
+function validateBusinessProfile(){
+ const p=readBusinessProfile();
+ const missing=!p.oferta?'bizOffer':!p.publico?'bizAudience':!p.objetivo?'bizGoal':p.objetivo==='Outro'&&!p.outro_objetivo?'bizOtherGoal':null;
+ if(missing){document.getElementById('businessSetup').open=true;document.getElementById(missing).focus();document.getElementById('settingsStatus').textContent='Preencha sua oferta, seu público e o objetivo da conversa.';return null}
+ return p;
+}
 async function saveBusinessInstructions(){
- const el=document.getElementById('settingsStatus'),text=document.getElementById('businessInstructions').value.trim();
- if(!activeUserId)return;
- const {error}=await authClient.from('social_seller_settings').upsert({user_id:activeUserId,instructions:text,updated_at:new Date().toISOString()});
- el.textContent=error?'Não consegui salvar. Tente novamente.':'Orientações salvas.';
- return !error;
+ const el=document.getElementById('settingsStatus'),profile=validateBusinessProfile();
+ if(!activeUserId||!profile)return false;
+ const button=document.getElementById('saveBusiness');button.disabled=true;el.textContent='Salvando seu negócio…';
+ try{
+  const {error}=await authClient.from('social_seller_settings').upsert({user_id:activeUserId,instructions:JSON.stringify(profile),updated_at:new Date().toISOString()});
+  if(error)throw error;
+  el.textContent='Seu negócio foi salvo. As sugestões usarão estas orientações quando a IA estiver ativa.';return true;
+ }catch{el.textContent='Não consegui salvar. Seus campos continuam preenchidos; tente novamente.';return false}
+ finally{button.disabled=false}
 }
 async function generateSuggestion(mode){
  const x=current();if(!x||aiBusy)return;
  if(x.due&&x.due>today())return alert('O retorno está combinado para '+x.due.split('-').reverse().join('/')+'. Aguarde essa data ou ajuste a data combinada.');
- if(!document.getElementById('businessInstructions').value.trim())return alert('Preencha as orientações do seu negócio no painel para a IA conhecer sua oferta.');
+ if(!validateBusinessProfile())return;
  aiBusy=true;const id=x.id,owner=activeUserId;
  aiNotices.set(id,'Analisando a conversa…');render();
  document.getElementById('generateAI').disabled=true;document.getElementById('followAI').disabled=true;
