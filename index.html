@@ -78,6 +78,17 @@
 </div>
 
 <section id="hoje">
+<div class="card">
+<div class="row"><h2 style="flex:1">O que fazer hoje</h2><button class="gray" id="refreshPanel" onclick="refreshPanel()">Atualizar painel</button></div>
+<p class="small">Respostas primeiro, depois retornos atrasados, retornos de hoje e novas abordagens. Os próximos dias ficam guardados em PESSOAS.</p>
+<div id="dailyList"></div>
+</div>
+<details class="card"><summary><b>Orientações do meu negócio para a IA</b></summary>
+<label for="businessInstructions">O que você vende, para quem, objetivo da conversa, tom de voz e limites</label>
+<textarea id="businessInstructions" rows="5" maxlength="6000" placeholder="Ex.: vendo... ajudo... quero agendar... a sessão dura... Não oferecer descontos. Link de agendamento..."></textarea>
+<button class="primary" onclick="saveBusinessInstructions()">Salvar orientações</button><p class="small" id="settingsStatus" role="status"></p>
+<p class="small">As sugestões usam as orientações e a conversa desta pessoa. Revise antes de enviar. Instagram e WhatsApp ainda não estão conectados para envio automático.</p>
+</details>
 <div class="counts">
 <div class="count"><b id="nResp">0</b><span class="small">responder</span></div>
 <div class="count"><b id="nFollow">0</b><span class="small">follow-up</span></div>
@@ -93,7 +104,19 @@
 <label style="margin-top:14px">Anotações desta PMI</label>
 <textarea id="leadNotes" rows="3" placeholder="Ex.: Viva Mar Farma · Morretes · Itapema. Escreva aqui detalhes importantes desta pessoa." oninput="updateNotes(this.value)"></textarea>
 <div class="small">Salva automaticamente.</div>
-<div id="message" class="msg"></div>
+<p id="actionReason" class="small"></p>
+<label for="nextAction">Próxima ação combinada</label><input id="nextAction" maxlength="500" placeholder="Ex.: perguntar sobre a proposta na quinta" oninput="updateTaskField('nextAction',this.value)">
+<div class="row"><div><label for="followDate">Data do retorno</label><input id="followDate" type="date" onchange="updateTaskField('due',this.value)"></div>
+<div><label for="followType">Tipo de abordagem</label><select id="followType" onchange="updateTaskField('followupType',this.value)">
+<option value="retomada">Retomar conversa</option><option value="objecao">Entender uma dúvida</option><option value="valor">Trazer informação útil</option><option value="encerramento">Encerrar com respeito</option></select></div></div>
+<p class="small" id="aiSummary"></p>
+<label for="draftMessage">Próxima mensagem — revise e edite</label>
+<textarea id="draftMessage" rows="5" placeholder="Escreva sua mensagem ou peça uma sugestão à IA." oninput="updateTaskField('draft',this.value)"></textarea>
+<div id="message" class="msg hidden"></div>
+<div class="row"><button class="primary" id="generateAI" onclick="generateSuggestion('continuar')">Sugerir próxima mensagem com IA</button>
+<button class="gold" id="followAI" onclick="generateSuggestion('followup')">Fazer follow-up com IA</button>
+<button class="gray" onclick="prepareFollowup()">Preparar follow-up manual</button></div>
+<p class="small" id="aiStatus" role="status"></p>
 <label style="margin-top:14px">Histórico da conversa</label>
 <textarea id="conversation" rows="7" placeholder="Cole aqui a conversa que já aconteceu no Instagram. Ela ficará salva nesta PMI para você continuar do ponto certo." oninput="updateConversation(this.value)"></textarea>
 <div class="small">Cole toda a conversa aqui, inclusive mensagens anteriores. Salva automaticamente.</div>
@@ -131,7 +154,7 @@
 </div>
 <div class="card empty hidden" id="emptyCard">
 <h2>Seu app está pronto.</h2>
-<p class="muted">Nenhuma pessoa cadastrada neste aparelho ainda.</p>
+<p class="muted">Nenhuma ação pendente para hoje. Consulte PESSOAS para ver todos os contatos e os próximos retornos.</p>
 <button class="primary" onclick="tab('add')">Adicionar primeira pessoa</button>
 </div>
 </section>
@@ -190,12 +213,12 @@ const SUPABASE_URL='https://vjpcivbmnhqapbrlqeli.supabase.co';
 const SUPABASE_KEY='sb_publishable_KAEYQhr92si-oeFd03qINQ_5WXTU423';
 let inviteFlow=location.hash.includes('type=invite')||location.hash.includes('type=recovery')||location.search.includes('create_password=1');
 const authClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-const STORAGE_KEY='renascente_ss_free_v2';
+let STORAGE_KEY='renascente_ss_free_v2';
 let deferredPrompt=null;let pendingPhoto='';
 const today=()=>{const d=new Date();const z=new Date(d.getTime()-d.getTimezoneOffset()*60000);return z.toISOString().slice(0,10)};
 const plus=n=>{const d=new Date();d.setDate(d.getDate()+n);const z=new Date(d.getTime()-d.getTimezoneOffset()*60000);return z.toISOString().slice(0,10)};
 const terminal=s=>['fechou','naoprocurar','bloqueou'].includes(s);
-const labels={abordar:'ABORDAR',aguardando:'AGUARDAR',nao_respondeu:'NÃO RESPONDEU',respondeu:'RESPONDEU',levar_whatsapp:'LEVAR PARA WHATSAPP',whatsapp:'NO WHATSAPP',diagnostico:'DIAGNÓSTICO',fechou:'FECHOU MENTORIA',naoprocurar:'NÃO PROCURAR MAIS',bloqueou:'ME BLOQUEOU'};
+const labels={abordar:'ABORDAR',aguardando:'AGUARDAR',nao_respondeu:'NÃO RESPONDEU',respondeu:'RESPONDEU',levar_whatsapp:'LEVAR PARA WHATSAPP',whatsapp:'NO WHATSAPP',diagnostico:'DIAGNÓSTICO',fechou:'OBJETIVO ALCANÇADO',naoprocurar:'NÃO PROCURAR MAIS',bloqueou:'ME BLOQUEOU'};
 const pmiLabels={forte:'PMI FORTE',possivel:'POSSÍVEL PMI',nao:'NÃO PRIORITÁRIA',revisar:'REVISAR PERFIL'};
 let data=[];try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');data=Array.isArray(saved)?saved:[]}catch(e){data=[]}let currentId=null;
 let activeUserId=null,syncTimer=null,syncing=false;
@@ -367,6 +390,136 @@ async function previewPhoto(event){
 function addLead(){if(photoBusy)return;const n=document.getElementById('fName').value.trim();if(!n)return alert('Coloque o nome.');const h=document.getElementById('fHandle').value.trim().replace(/^@/,'').toLowerCase();if(h&&data.some(z=>(z.handle||'').replace(/^@/,'').toLowerCase()===h))return alert('Este @ já está cadastrado. Procure a pessoa em PESSOAS para continuar, sem duplicar o contato.');const stage=document.getElementById('fStage').value;const x={id:newId(),name:n,handle:document.getElementById('fHandle').value.trim(),profileUrl:document.getElementById('fProfileUrl').value.trim(),phone:document.getElementById('fPhone').value.trim(),biz:document.getElementById('fBiz').value.trim(),pmi:document.getElementById('fPmi').value,pmiReason:document.getElementById('fPmiReason').value.trim(),stage,reply:document.getElementById('fReply').value.trim(),conversation:document.getElementById('fConversation').value.trim(),due:stage==='aguardando'?plus(2):today(),updated:Date.now(),photo:pendingPhoto||''};data.push(x);save();currentId=x.id;['fName','fHandle','fProfileUrl','fPhone','fBiz','fPmiReason','fReply','fConversation','fPhoto'].forEach(id=>document.getElementById(id).value='');document.getElementById('fStage').value='abordar';document.getElementById('fPmi').value='revisar';document.getElementById('pmiAnalysis').classList.add('hidden');pendingPhoto='';photoJob++;document.getElementById('photoStatus').textContent='';const p=document.getElementById('photoPreview');p.classList.add('hidden');p.removeAttribute('src');tab('hoje')}
 if('serviceWorker' in navigator){window.addEventListener('load',async()=>{try{const registration=await navigator.serviceWorker.register('/sw.js?v=5',{updateViaCache:'none'});await registration.update()}catch(e){}})}
 if(window.matchMedia('(display-mode: standalone)').matches||navigator.standalone){document.getElementById('installBox').classList.add('hidden')}
+
+// Daily work and AI suggestions. Messages are drafts, never auto-sent.
+const followNames={retomada:'Retomar conversa',objecao:'Entender uma dúvida',valor:'Trazer informação útil',encerramento:'Encerrar com respeito'};
+const rowBefore=toRow, fromBefore=fromRow;
+toRow=x=>({...rowBefore(x),next_action:x.nextAction||'',followup_type:x.followupType||'retomada',draft:x.draft||'',ai_summary:x.aiSummary||''});
+fromRow=x=>({...fromBefore(x),nextAction:x.next_action||'',followupType:x.followup_type||'retomada',draft:x.draft||'',aiSummary:x.ai_summary||''});
+let dirtyIds=new Set(), observed=new Map(), syncPromise=null, loadingLeads=null, aiBusy=false;
+function cacheLeads(){if(!activeUserId)return;try{localStorage.setItem(STORAGE_KEY,JSON.stringify({leads:data,pending:[...dirtyIds]}))}catch{syncMessage('Armazenamento deste aparelho cheio. Mantenha a página aberta até confirmar o salvamento online.');}}
+save=function(){
+ if(!activeUserId)return;
+ for(const x of data){const version=JSON.stringify(toRow(x));if(observed.get(x.id)!==version){dirtyIds.add(x.id);observed.set(x.id,version)}}
+ cacheLeads();queueSync();
+};
+queueSync=function(){if(!activeUserId)return;clearTimeout(syncTimer);syncMessage('Salvando automaticamente…');syncTimer=setTimeout(()=>syncAll(),450);};
+syncAll=async function(){
+ if(syncPromise){const ok=await syncPromise;if(!ok)return false;if(dirtyIds.size)return syncAll();return true}
+ if(!activeUserId)return false;
+ const owner=activeUserId;
+ syncPromise=(async()=>{
+  try{
+   while(dirtyIds.size&&activeUserId===owner){
+    const rows=data.filter(x=>dirtyIds.has(x.id)).map(toRow);
+    if(!rows.length){dirtyIds.clear();break}
+    const {error}=await authClient.from('social_seller_leads').upsert(rows,{onConflict:'id'});if(error)throw error;
+    for(const row of rows){const x=data.find(x=>x.id===row.id);if(x&&JSON.stringify(toRow(x))===JSON.stringify(row))dirtyIds.delete(row.id)}
+    cacheLeads();
+   }
+   syncMessage('Tudo salvo automaticamente.');return true;
+  }catch{syncMessage('Salvo neste aparelho. Sem conexão com o servidor; toque em Atualizar painel para tentar de novo.');return false}
+ })();
+ try{return await syncPromise}finally{syncPromise=null}
+};
+function mergeRemote(remote){
+ const pending=data.filter(x=>dirtyIds.has(x.id));
+ const merged=new Map(remote.map(r=>{const x=fromRow(r);return [x.id,x]}));
+ for(const x of pending)merged.set(x.id,x);
+ data=[...merged.values()];observed=new Map(data.map(x=>[x.id,JSON.stringify(toRow(x))]));cacheLeads();
+}
+loadPersistentLeads=async function(){
+ if(loadingLeads)return loadingLeads;
+ loadingLeads=(async()=>{
+ const {data:{session}}=await authClient.auth.getSession();if(!session)return;
+ if(activeUserId===session.user.id)return;
+ activeUserId=session.user.id;STORAGE_KEY='renascente_leads_'+activeUserId;
+ let stored=null;try{stored=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null')}catch{}
+ data=Array.isArray(stored?.leads)?stored.leads.map(normalizeLead):[];
+ dirtyIds=new Set(stored?.pending||[]);
+ const {data:remote,error}=await authClient.from('social_seller_leads').select('*').eq('user_id',activeUserId);
+ if(error){syncMessage('Sem conexão. Mostrando a cópia salva neste aparelho.');return}
+ if(!stored){let legacy=[];try{legacy=JSON.parse(localStorage.getItem('renascente_ss_free_v2')||'[]')}catch{};if(Array.isArray(legacy)){const owned=new Map((remote||[]).map(x=>[x.id,x]));for(const x of legacy){const r=owned.get(x.id);if(r&&Number(x.updated)>new Date(r.updated_at).getTime()){data.push(normalizeLead(x));dirtyIds.add(x.id)}}}}
+ mergeRemote(remote||[]);await syncAll();
+ const {data:settings}=await authClient.from('social_seller_settings').select('instructions').eq('user_id',activeUserId).maybeSingle();
+ document.getElementById('businessInstructions').value=settings?.instructions||'';
+ try{const health=await fetch(SUPABASE_URL+'/functions/v1/social-seller-assistant',{signal:AbortSignal.timeout(8000)}).then(r=>r.json());document.getElementById('settingsStatus').textContent=health.configured?'IA configurada. Salve suas orientações antes de gerar.':'A IA ainda aguarda ativação da conta de inteligência artificial. A agenda e o follow-up manual já podem ser usados.';}catch{document.getElementById('settingsStatus').textContent='Não consegui verificar a disponibilidade da IA agora.';}
+ })();try{return await loadingLeads}finally{loadingLeads=null}
+};
+signOut=async function(){await syncAll();await authClient.auth.signOut();activeUserId=null;data=[];dirtyIds.clear();observed.clear();currentId=null;document.getElementById('businessInstructions').value='';document.getElementById('appShell').classList.add('hidden');document.getElementById('accessGate').classList.remove('hidden');accessMessage('Você saiu do aplicativo.');};
+function dueNow(x){return !terminal(x.stage)&&(!x.due||x.due<=today())}
+priority=function(x){if(x.stage==='respondeu')return 0;if(x.due&&x.due<today())return 1;if(x.stage==='abordar')return 3;return 2};
+queue=function(){return data.filter(dueNow).sort((a,b)=>priority(a)-priority(b)||(a.due||today()).localeCompare(b.due||today())||(a.updated||0)-(b.updated||0));};
+current=function(){const selected=data.find(x=>x.id===currentId&&!terminal(x.stage));const x=selected||queue()[0]||null;currentId=x?.id||null;return x};
+function taskReason(x){if(x.due&&x.due>today())return 'Aguardar até '+x.due.split('-').reverse().join('/')+'.';if(x.stage==='respondeu')return 'Responder à última mensagem.';if(x.stage==='abordar')return 'Iniciar uma conversa personalizada.';return (x.due&&x.due<today()?'Retorno atrasado · ':'Retorno de hoje · ')+(followNames[x.followupType||'retomada']);}
+function prepareFollowup(){const x=current();if(!x)return;const tips={retomada:'Retome um ponto real da conversa e o próximo passo combinado.',objecao:'Pergunte sobre a dúvida que a pessoa trouxe, sem presumir o motivo do silêncio.',valor:'Traga uma informação útil para o caso, sem inventar resultados ou descontos.',encerramento:'Encerre sem cobrança e deixe a pessoa à vontade para retomar.'};aiNotices.set(x.id,tips[x.followupType||'retomada']+' Escreva no campo da mensagem e marque Enviei somente após enviar.');render();document.getElementById('draftMessage').focus();}
+function renderDaily(){
+ const list=document.getElementById('dailyList');list.replaceChildren();
+ const q=queue();for(const x of q){const b=document.createElement('button');b.className='gray';b.style.cssText='display:block;width:100%;text-align:left;margin:8px 0;white-space:normal';b.textContent=x.name+' — '+taskReason(x)+(x.nextAction?' '+x.nextAction:'');b.onclick=()=>work(x.id);list.appendChild(b)}
+ if(!q.length)list.textContent='Nenhuma ação pendente para hoje. Os contatos continuam em PESSOAS.';
+}
+const renderBefore=render;
+render=function(){renderBefore();renderDaily();const x=current();if(!x)return;document.getElementById('actionReason').textContent=taskReason(x);document.getElementById('nextAction').value=x.nextAction||'';document.getElementById('followDate').value=x.due||today();document.getElementById('followType').value=x.followupType||'retomada';document.getElementById('draftMessage').value=x.draft||'';document.getElementById('aiSummary').textContent=x.aiSummary||'';document.getElementById('aiStatus').textContent=aiNotices.get(x.id)||'';};
+messageFor=x=>x.draft||'';
+const aiNotices=new Map();
+function updateTaskField(key,value){const x=current();if(!x)return;x[key]=value;x.updated=Date.now();save();renderDaily();if(key==='due')document.getElementById('actionReason').textContent=taskReason(x);}
+async function refreshPanel(){
+ const button=document.getElementById('refreshPanel');button.disabled=true;
+ try{save();if(!await syncAll())return;const {data:remote,error}=await authClient.from('social_seller_leads').select('*').eq('user_id',activeUserId);if(error)throw error;mergeRemote(remote||[]);render();renderPeople();syncMessage('Painel atualizado. Suas informações foram preservadas.');}
+ catch{syncMessage('Não consegui atualizar agora. Seus dados foram preservados.');}finally{button.disabled=false}
+}
+async function saveBusinessInstructions(){
+ const el=document.getElementById('settingsStatus'),text=document.getElementById('businessInstructions').value.trim();
+ if(!activeUserId)return;
+ const {error}=await authClient.from('social_seller_settings').upsert({user_id:activeUserId,instructions:text,updated_at:new Date().toISOString()});
+ el.textContent=error?'Não consegui salvar. Tente novamente.':'Orientações salvas.';
+ return !error;
+}
+async function generateSuggestion(mode){
+ const x=current();if(!x||aiBusy)return;
+ if(x.due&&x.due>today())return alert('O retorno está combinado para '+x.due.split('-').reverse().join('/')+'. Aguarde essa data ou ajuste a data combinada.');
+ if(!document.getElementById('businessInstructions').value.trim())return alert('Preencha as orientações do seu negócio no painel para a IA conhecer sua oferta.');
+ aiBusy=true;const id=x.id,owner=activeUserId;
+ aiNotices.set(id,'Analisando a conversa…');render();
+ document.getElementById('generateAI').disabled=true;document.getElementById('followAI').disabled=true;
+ try{
+  save();if(!await syncAll())throw new Error('Conecte-se à internet para salvar a conversa e gerar a sugestão.');
+  if(!await saveBusinessInstructions())throw new Error('Salve as orientações do negócio antes de gerar.');
+  const fingerprint=JSON.stringify([x.conversation,x.reply,x.notes,x.stage,x.due,x.followupType,x.draft]);
+  const {data:{session}}=await authClient.auth.getSession();if(!session)throw new Error('Entre novamente.');
+  const response=await fetch(SUPABASE_URL+'/functions/v1/social-seller-assistant',{method:'POST',signal:AbortSignal.timeout(55000),headers:{apikey:SUPABASE_KEY,Authorization:'Bearer '+session.access_token,'Content-Type':'application/json'},body:JSON.stringify({lead_id:id,mode})});
+  const answer=await response.json();if(!response.ok)throw new Error(answer.error||'Não consegui gerar agora.');
+  if(owner!==activeUserId)return;
+  if(fingerprint!==JSON.stringify([x.conversation,x.reply,x.notes,x.stage,x.due,x.followupType,x.draft]))throw new Error('A conversa mudou durante a análise. Peça uma nova sugestão para usar a versão atual.');
+  x.draft=answer.mensagem||'';x.aiSummary=answer.resumo||'';x.nextAction=answer.acao||'';x.updated=Date.now();save();
+  aiNotices.set(id,answer.pausar?'A IA recomenda pausar este contato. Leia a próxima ação.':'Sugestão pronta. Revise antes de enviar.');
+ }catch(e){aiNotices.set(id,e.name==='TimeoutError'?'A análise demorou. Tente novamente; seu histórico está salvo.':e.message);}
+ finally{aiBusy=false;document.getElementById('generateAI').disabled=false;document.getElementById('followAI').disabled=false;render();}
+}
+result=function(s){
+ const x=current();if(!x)return;
+ if(['bloqueou','naoprocurar'].includes(s)&&!confirm('Retirar esta pessoa dos próximos contatos?'))return;
+ if(s==='respondeu'){
+  const value=prompt('Cole a última resposta da pessoa:');if(!value?.trim())return;
+  x.reply=value.trim();x.conversation=[x.conversation,'Pessoa respondeu ('+today()+'):\n'+x.reply].filter(Boolean).join('\n\n');x.stage=s;x.due=today();x.draft='';x.aiSummary='';x.updated=Date.now();save();render();renderPeople();generateSuggestion('continuar');return;
+ }
+ if(s==='enviada'){
+  if(!x.draft?.trim())return alert('Escreva ou gere a mensagem que você enviou antes de marcar Enviei.');
+  x.conversation=[x.conversation,'Eu enviei ('+today()+'):\n'+x.draft].filter(Boolean).join('\n\n');x.draft='';x.stage='aguardando';x.due=plus(2);
+ }else if(s==='nao_respondeu'){x.stage=s;x.noReplyCount=(x.noReplyCount||0)+1;x.due=plus(2);}
+ else{x.stage=s;x.due=today();x.draft='';}
+ x.updated=Date.now();save();currentId=null;render();renderPeople();
+};
+copyMsg=async function(){const x=current();if(!x?.draft?.trim())return alert('Escreva ou gere uma sugestão primeiro.');try{await navigator.clipboard.writeText(x.draft);aiNotices.set(x.id,'Mensagem copiada. Depois de enviar, marque Enviei.');render();}catch{alert('Selecione o texto no campo da mensagem para copiar.');}};
+openIG=function(){const x=current();if(!x?.handle)return alert('Cadastre o @ desta pessoa.');save();window.open('https://www.instagram.com/'+encodeURIComponent(x.handle.trim().replace(/^@/,''))+'/', '_blank','noopener');};
+openWA=function(){const x=current();if(!x?.phone)return alert('Cadastre o WhatsApp em PESSOAS.');save();let p=x.phone.replace(/\D/g,'');if(!p.startsWith('55'))p='55'+p;window.open('https://wa.me/'+p+(x.draft?'?text='+encodeURIComponent(x.draft):''),'_blank','noopener');};
+const peopleBefore=renderPeople;
+renderPeople=function(){peopleBefore();const items=document.querySelectorAll('#list .item');const q=(document.getElementById('search').value||'').toLowerCase();const arr=data.filter(x=>(x.name+' '+(x.handle||'')+' '+(x.biz||'')+' '+(pmiLabels[x.pmi||'revisar']||'')).toLowerCase().includes(q)).sort((a,b)=>(b.updated||0)-(a.updated||0));items.forEach((el,i)=>{const p=document.createElement('p');p.className='small';p.textContent=terminal(arr[i].stage)?(arr[i].outcome||labels[arr[i].stage]):taskReason(arr[i])+(arr[i].nextAction?' '+arr[i].nextAction:'');el.appendChild(p);});};
+let renderedDay=today();
+setInterval(()=>{if(activeUserId&&renderedDay!==today()){renderedDay=today();currentId=null;renderDaily();if(!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName))render();}},60000);
+window.addEventListener('online',()=>{if(activeUserId)syncAll();});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&activeUserId){save();syncAll();}else if(activeUserId){renderDaily();}});
+
 authClient.auth.onAuthStateChange(()=>setTimeout(checkAccess,0));checkAccess();
 </script>
 </body>
