@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#4f46e5">
+<title>Acesso — Gestão 360 do Comércio</title>
+<style>
+:root{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:#111827;background:#f6f7fb}*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(180deg,#fff,#f6f7fb)}.card{width:min(480px,100%);background:#fff;border:1px solid #e5e7eb;border-radius:22px;padding:26px;box-shadow:0 22px 60px rgba(15,23,42,.12)}.brand{font-weight:800;font-size:22px}.brand b{color:#4f46e5}.muted{color:#667085;line-height:1.5}.field{display:flex;flex-direction:column;gap:6px;margin:14px 0}.field label{font-size:12px;font-weight:800}.field input{padding:13px;border:1px solid #d0d5dd;border-radius:11px;font:inherit}.btn{width:100%;padding:13px 16px;border:0;border-radius:11px;font-weight:800;cursor:pointer;margin-top:8px}.primary{background:#4f46e5;color:#fff}.ghost{background:#f2f4f7;color:#111827}.status{margin-top:12px;padding:11px;border-radius:10px;background:#f2f4f7;color:#344054;font-size:13px}.error{background:#fee4e2;color:#912018}.ok{background:#dcfae6;color:#05603a}.links{text-align:center;margin-top:16px;font-size:13px}.links a{color:#4f46e5;text-decoration:none}.hidden{display:none}</style>
+</head>
+<body>
+<div class="card">
+  <div class="brand">Re*Nascente <b>RD</b></div>
+  <p class="muted">Gestão 360 do Comércio</p>
+
+  <section id="tokenPane" class="hidden">
+    <h1 id="tokenTitle">Crie sua senha</h1>
+    <p class="muted" id="tokenText">Defina uma senha com pelo menos 8 caracteres.</p>
+    <form id="tokenForm">
+      <div class="field"><label>Nova senha</label><input id="newPassword" type="password" minlength="8" required></div>
+      <div class="field"><label>Repita a nova senha</label><input id="newPassword2" type="password" minlength="8" required></div>
+      <button class="btn primary">Salvar senha</button>
+    </form>
+    <div id="tokenStatus"></div>
+  </section>
+
+  <section id="firstPane">
+    <h1>Primeiro acesso</h1>
+    <p class="muted">Já comprou? Use exatamente o mesmo e-mail informado na Kiwify e crie sua primeira senha.</p>
+    <form id="firstForm">
+      <div class="field"><label>E-mail da compra</label><input id="email" type="email" required></div>
+      <div class="field"><label>Crie sua senha</label><input id="password" type="password" minlength="8" required></div>
+      <div class="field"><label>Repita a senha</label><input id="password2" type="password" minlength="8" required></div>
+      <button class="btn primary">Criar meu acesso</button>
+    </form>
+    <div id="firstStatus"></div>
+    <button class="btn ghost" id="showRecovery" type="button">Esqueci minha senha</button>
+  </section>
+
+  <section id="recoveryPane" class="hidden">
+    <h1>Recuperar senha</h1>
+    <p class="muted">Digite seu e-mail. Você receberá um link para criar uma nova senha.</p>
+    <form id="recoveryForm">
+      <div class="field"><label>E-mail</label><input id="recoveryEmail" type="email" required></div>
+      <button class="btn primary">Enviar recuperação</button>
+    </form>
+    <div id="recoveryStatus"></div>
+    <button class="btn ghost" id="backFirst" type="button">Voltar</button>
+  </section>
+
+  <div class="links"><a href="./index.html">Já tenho senha — entrar</a> · <a href="https://pay.kiwify.com.br/CUnAMR0">Ainda não comprei</a></div>
+</div>
+<script>
+const SB_URL='https://cqpihcfgjocmwaqwiemi.supabase.co';
+const SB_KEY='sb_publishable_kDx8ysTXs-p6J3EN7PNO0Q_on-h2m_r';
+const THIS_URL='https://mentorarejanedahmer-ux.github.io/gestao360-app/acesso.html';
+const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const box=(id,msg,type='status')=>document.getElementById(id).innerHTML='<div class="status '+type+'">'+esc(msg)+'</div>';
+const hash=new URLSearchParams(location.hash.replace(/^#/,''));
+const qs=new URLSearchParams(location.search);
+const accessToken=hash.get('access_token');
+const refreshToken=hash.get('refresh_token');
+const tokenType=hash.get('type')||qs.get('mode')||'';
+
+if(accessToken){
+  firstPane.classList.add('hidden');recoveryPane.classList.add('hidden');tokenPane.classList.remove('hidden');
+  if(tokenType==='recovery'){tokenTitle.textContent='Crie uma nova senha';tokenText.textContent='Seu link de recuperação foi validado. Defina sua nova senha.'}
+  else{tokenTitle.textContent='Finalize seu acesso';tokenText.textContent='Seu acesso foi liberado. Agora crie sua senha.'}
+}
+
+tokenForm.onsubmit=async e=>{
+  e.preventDefault();
+  const p=newPassword.value,p2=newPassword2.value;
+  if(p.length<8||p!==p2){box('tokenStatus','Confira as senhas. Elas precisam ser iguais e ter 8 caracteres ou mais.','error');return}
+  box('tokenStatus','Salvando sua senha...');
+  try{
+    const r=await fetch(SB_URL+'/auth/v1/user',{method:'PUT',headers:{apikey:SB_KEY,Authorization:'Bearer '+accessToken,'Content-Type':'application/json'},body:JSON.stringify({password:p})});
+    const d=await r.json().catch(()=>({}));
+    if(!r.ok)throw new Error(d?.message||d?.error_description||d?.error||'Não foi possível salvar a senha.');
+    if(refreshToken)localStorage.setItem('g360_session',JSON.stringify({access_token:accessToken,refresh_token:refreshToken,token_type:'bearer'}));
+    box('tokenStatus','Senha salva. Você já pode entrar no Gestão 360.','ok');
+    history.replaceState(null,'',location.pathname);
+    setTimeout(()=>location.href='./index.html',1200);
+  }catch(err){box('tokenStatus',err.message,'error')}
+};
+
+firstForm.onsubmit=async e=>{
+  e.preventDefault();
+  const em=email.value.trim().toLowerCase(),p=password.value,p2=password2.value;
+  if(p.length<8||p!==p2){box('firstStatus','Confira as senhas. Elas precisam ser iguais e ter 8 caracteres ou mais.','error');return}
+  box('firstStatus','Validando sua compra...');
+  try{
+    const r=await fetch(SB_URL+'/functions/v1/gestao360-first-access',{method:'POST',headers:{'Content-Type':'application/json',apikey:SB_KEY},body:JSON.stringify({email:em,password:p})});
+    const d=await r.json().catch(()=>({}));
+    if(!r.ok){if(d?.code==='already_active')throw new Error('Seu acesso já existe. Entre com sua senha ou use Recuperar senha.');throw new Error(d?.error||'Compra aprovada não localizada para este e-mail.')}
+    box('firstStatus','Acesso criado. Abrindo o Gestão 360...','ok');
+    setTimeout(()=>location.href='./index.html',900);
+  }catch(err){box('firstStatus',err.message,'error')}
+};
+
+showRecovery.onclick=()=>{firstPane.classList.add('hidden');recoveryPane.classList.remove('hidden')};
+backFirst.onclick=()=>{recoveryPane.classList.add('hidden');firstPane.classList.remove('hidden')};
+recoveryForm.onsubmit=async e=>{
+  e.preventDefault();box('recoveryStatus','Enviando recuperação...');
+  try{
+    const em=recoveryEmail.value.trim().toLowerCase();
+    const r=await fetch(SB_URL+'/auth/v1/recover',{method:'POST',headers:{apikey:SB_KEY,'Content-Type':'application/json'},body:JSON.stringify({email:em,redirect_to:THIS_URL+'?mode=recovery'})});
+    const d=await r.json().catch(()=>({}));
+    if(!r.ok)throw new Error(d?.message||d?.error_description||d?.error||'Não foi possível enviar a recuperação.');
+    box('recoveryStatus','Se o e-mail estiver cadastrado, você receberá o link para criar uma nova senha.','ok');
+  }catch(err){box('recoveryStatus',err.message,'error')}
+};
+</script>
+</body></html>
