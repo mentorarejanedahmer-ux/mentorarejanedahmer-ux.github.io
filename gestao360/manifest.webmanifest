@@ -1,0 +1,13 @@
+{
+  "name": "Gestão 360 do Comércio — Re*Nascente RD",
+  "short_name": "Gestão 360",
+  "description": "Gestão empresarial integrada para comércio e serviços.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f3ed",
+  "theme_color": "#6d4b32",
+  "icons": [
+    {"src":"../icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}
