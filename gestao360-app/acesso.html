@@ -26,12 +26,10 @@
 
   <section id="firstPane">
     <h1>Primeiro acesso</h1>
-    <p class="muted">Já comprou? Use exatamente o mesmo e-mail informado na Kiwify e crie sua primeira senha.</p>
+    <p class="muted">Informe o e-mail da compra. Enviaremos um link para confirmar seu acesso e criar sua senha.</p>
     <form id="firstForm">
       <div class="field"><label>E-mail da compra</label><input id="email" type="email" required></div>
-      <div class="field"><label>Crie sua senha</label><input id="password" type="password" minlength="8" required></div>
-      <div class="field"><label>Repita a senha</label><input id="password2" type="password" minlength="8" required></div>
-      <button class="btn primary">Criar meu acesso</button>
+      <button class="btn primary">Enviar confirmação por e-mail</button>
     </form>
     <div id="firstStatus"></div>
     <button class="btn ghost" id="showRecovery" type="button">Esqueci minha senha</button>
@@ -86,15 +84,13 @@ tokenForm.onsubmit=async e=>{
 
 firstForm.onsubmit=async e=>{
   e.preventDefault();
-  const em=email.value.trim().toLowerCase(),p=password.value,p2=password2.value;
-  if(p.length<8||p!==p2){box('firstStatus','Confira as senhas. Elas precisam ser iguais e ter 8 caracteres ou mais.','error');return}
+  const em=email.value.trim().toLowerCase();
   box('firstStatus','Validando sua compra...');
   try{
-    const r=await fetch(SB_URL+'/functions/v1/gestao360-first-access',{method:'POST',headers:{'Content-Type':'application/json',apikey:SB_KEY},body:JSON.stringify({email:em,password:p})});
+    const r=await fetch(SB_URL+'/functions/v1/gestao360-first-access',{method:'POST',headers:{'Content-Type':'application/json',apikey:SB_KEY},body:JSON.stringify({email:em})});
     const d=await r.json().catch(()=>({}));
     if(!r.ok){if(d?.code==='already_active')throw new Error('Seu acesso já existe. Entre com sua senha ou use Recuperar senha.');throw new Error(d?.error||'Compra aprovada não localizada para este e-mail.')}
-    box('firstStatus','Acesso criado. Abrindo o Gestão 360...','ok');
-    setTimeout(()=>location.href='./index.html',900);
+    box('firstStatus',d.message||'Confira seu e-mail e abra o link para criar sua senha.','ok');
   }catch(err){box('firstStatus',err.message,'error')}
 };
 
