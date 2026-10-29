@@ -2,14 +2,17 @@ const SB_URL="https://cqpihcfgjocmwaqwiemi.supabase.co";
 const SB_KEY="sb_publishable_kDx8ysTXs-p6J3EN7PNO0Q_on-h2m_r";
 const CHECKOUT="https://pay.kiwify.com.br/CUnAMR0";
 const ACCESS_URL="https://mentorarejanedahmer-ux.github.io/gestao360-app/acesso.html";
-const DBKEY="g360_prod_v1";
+let DBKEY=null;
+let activeUserId=null,loadReady=false,pendingSave=false,saving=false;
+function emptyDB(){return {accounts:[{id:'dinheiro',name:'Dinheiro'},{id:'pix',name:'PIX'},{id:'cartao',name:'Cartão'}],cashDays:{},tx:[],products:[],purchases:[],employees:[],punches:[],hr:[],fiscal:{company:{},docs:[]},settings:{revenueTarget:0,spendingLimit:0,prolaboreTarget:0},closures:[]}}
+function syncStatus(text){let el=document.getElementById('cloudStatus');if(!el){el=document.createElement('p');el.id='cloudStatus';el.setAttribute('role','status');document.getElementById('app').prepend(el)}el.textContent=text}
 let session=null,deferredPrompt=null,saveTimer=null;
 
 const money=v=>Number(v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
-const today=()=>new Date().toISOString().slice(0,10);
+const today=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'America/Sao_Paulo',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 const uid=()=>crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2)+Date.now();
 
-let db=JSON.parse(localStorage.getItem(DBKEY)||"null")||{accounts:[{id:"dinheiro",name:"Dinheiro"},{id:"pix",name:"PIX"},{id:"cartao",name:"Cartão"}],cashDays:{},tx:[],products:[],purchases:[],employees:[],punches:[],hr:[],fiscal:{company:{},docs:[]},settings:{revenueTarget:0,spendingLimit:0,prolaboreTarget:0},closures:[]};
+let db=emptyDB();
 
 function showSignup(){authGate.classList.add("hidden");signupGate.classList.remove("hidden")}
 function showLogin(){signupGate.classList.add("hidden");authGate.classList.remove("hidden")}
@@ -60,20 +63,19 @@ async function resetPassword(){
 
 async function signUp(){
   try{
-    let e=signupEmail.value.trim().toLowerCase(),p=signupPassword.value;
-    if(!e||p.length<8||p!==signupPassword2.value)throw new Error("Confira e-mail e senha. A senha deve ter 8 caracteres ou mais.");
+    let e=signupEmail.value.trim().toLowerCase();
+    if(!e)throw new Error('Informe seu e-mail da compra.');
     signupStatus.textContent="Criando seu acesso...";
-    const r=await fetch(SB_URL+"/functions/v1/gestao360-first-access",{method:"POST",headers:{"Content-Type":"application/json","apikey":SB_KEY},body:JSON.stringify({email:e,password:p})});
+    const r=await fetch(SB_URL+"/functions/v1/gestao360-first-access",{method:"POST",headers:{"Content-Type":"application/json","apikey":SB_KEY},body:JSON.stringify({email:e})});
     const d=await r.json().catch(()=>({}));
     if(!r.ok){
       if(d?.code==="already_active"){
         signupStatus.textContent="Seu e-mail já foi confirmado. Entrando...";
-        try{await passwordLogin(e,p,signupStatus);return}catch(err){throw new Error("Seu acesso já existe. Volte e entre com a senha que você criou anteriormente.")}
+        throw new Error('Seu acesso já existe. Volte e entre com sua senha.');
       }
       throw new Error(d?.error||"Não foi possível criar o acesso agora. Tente novamente.")
     }
-    signupStatus.textContent="Acesso criado. Entrando...";
-    await passwordLogin(e,p,signupStatus);
+    signupStatus.textContent=d.message||'Confira seu e-mail para confirmar o acesso e criar sua senha.';
   }catch(e){signupStatus.textContent=e.message}
 }
 
@@ -87,6 +89,8 @@ async function refreshSession(){
 }
 
 async function signOut(){
+  clearTimeout(saveTimer);
+  if(pendingSave){await cloudSave();if(pendingSave){alert('Há alterações ainda não enviadas. Conecte-se e tente sair novamente.');return}}
   try{await api("/auth/v1/logout",{method:"POST"})}catch{}
   localStorage.removeItem("g360_session");
   location.reload();
@@ -105,27 +109,36 @@ async function checkSession(){
 }
 
 async function openApp(){
+  await loadCloud();
   authGate.classList.add("hidden");signupGate.classList.add("hidden");app.classList.remove("hidden");
-  await loadCloud();renderNav();render();
+  renderNav();render();
 }
 
 async function loadCloud(){
-  try{
-    let u=await api("/auth/v1/user");
-    let r=await api("/rest/v1/gestao360_user_data?user_id=eq."+u.id+"&select=data");
-    if(r?.[0]?.data&&Object.keys(r[0].data).length){db=r[0].data;localStorage.setItem(DBKEY,JSON.stringify(db))}
-  }catch(e){console.warn(e)}
+  loadReady=false;
+  const u=await api('/auth/v1/user');activeUserId=u.id;DBKEY='g360_user_'+u.id;db=emptyDB();
+  let cache=null;try{cache=JSON.parse(localStorage.getItem(DBKEY)||'null')}catch{}
+  const rows=await api('/rest/v1/gestao360_user_data?user_id=eq.'+encodeURIComponent(u.id)+'&select=data');
+  if(cache?.pending){db=cache.data;pendingSave=true;syncStatus('Alterações deste aparelho aguardam envio.');}
+  else{db=rows?.[0]?.data&&Object.keys(rows[0].data).length?rows[0].data:emptyDB();pendingSave=false;syncStatus('Dados carregados do servidor.');}
+  localStorage.setItem(DBKEY,JSON.stringify({data:db,pending:pendingSave}));loadReady=true;
+  if(pendingSave)await cloudSave();
 }
 
-function save(){localStorage.setItem(DBKEY,JSON.stringify(db));clearTimeout(saveTimer);saveTimer=setTimeout(cloudSave,700)}
+function save(){if(!loadReady||!activeUserId)throw new Error('Aguarde carregar seus dados.');pendingSave=true;localStorage.setItem(DBKEY,JSON.stringify({data:db,pending:true}));syncStatus('Salvo neste aparelho. Enviando ao servidor…');clearTimeout(saveTimer);saveTimer=setTimeout(cloudSave,700)}
 
 async function cloudSave(){
-  if(!session)return;
+  if(!session||!loadReady||!pendingSave||saving)return;
+  saving=true;const owner=activeUserId,key=DBKEY,snapshot=JSON.stringify(db);
   try{
-    let u=await api("/auth/v1/user");
-    await api("/rest/v1/gestao360_user_data?on_conflict=user_id",{method:"POST",headers:{Prefer:"resolution=merge-duplicates,return=minimal"},body:JSON.stringify({user_id:u.id,data:db,updated_at:new Date().toISOString()})});
-  }catch(e){console.warn(e)}
+    await api('/rest/v1/gestao360_user_data?on_conflict=user_id',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify({user_id:owner,data:JSON.parse(snapshot),updated_at:new Date().toISOString()})});
+    if(owner===activeUserId&&snapshot===JSON.stringify(db)){pendingSave=false;localStorage.setItem(key,JSON.stringify({data:db,pending:false}));syncStatus('Tudo salvo no servidor.');}
+  }catch(e){syncStatus('Ainda não salvo no servidor. Sua cópia está neste aparelho. Verifique a conexão.');}
+  finally{saving=false;}
+  if(pendingSave&&snapshot!==JSON.stringify(db)){clearTimeout(saveTimer);saveTimer=setTimeout(cloudSave,700)}
 }
+window.addEventListener('online',()=>cloudSave());
+window.addEventListener('beforeunload',e=>{if(pendingSave){e.preventDefault();e.returnValue=''}});
 
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e});
 async function installApp(){if(deferredPrompt){deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null}else alert("No celular, abra o menu do navegador e toque em Instalar aplicativo ou Adicionar à tela inicial.")}
